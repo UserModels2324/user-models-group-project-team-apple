@@ -3,7 +3,7 @@ import math
 import pandas as pd
 from collections import namedtuple
 
-Fact = namedtuple("Fact", "fact_id, question, answer")
+Fact = namedtuple("Fact", "fact_id, question, context1, context2, answer")
 Response = namedtuple("Response", "fact, start_time, rt, correct")
 Encounter = namedtuple("Encounter", "activation, time, reaction_time, decay")
 

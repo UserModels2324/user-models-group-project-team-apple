@@ -1,6 +1,15 @@
-trial,start_time,rt,correct,fact_id,question,answer,alpha
-1,34029,2207,True,1,hello,bonjour,0.3
-2,38007,1890,True,1,hello,bonjour,0.3
-3,50000,1200,True,1,hello,bonjour,0.250390625
-4,60000,1100,True,1,hello,bonjour,0.20156249999999998
-5,70000,1000,True,1,hello,bonjour,0.200390625
+trial,start_time,rt,correct,fact_id,question,context1,context2,answer,alpha
+1,0.0,7388,True,1,France,context1,context2,paris,0.3
+2,7388.482093811035,1824,True,1,France,context1,context2,paris,0.3
+3,9212.78429031372,1028,False,2,The Netherlands,context1,context2,amsterdam,0.3
+4,10240.58723449707,1018,False,3,Finland,context1,context2,helsinki,0.3
+5,11258.37516784668,940,False,2,The Netherlands,context1,context2,amsterdam,0.3
+6,12198.407173156738,914,False,3,Finland,context1,context2,helsinki,0.3
+7,13112.55955696106,908,True,1,France,context1,context2,paris,0.250390625
+8,14020.551443099976,802,False,2,The Netherlands,context1,context2,amsterdam,0.349609375
+9,14822.551488876343,833,False,3,Finland,context1,context2,helsinki,0.349609375
+10,15655.8358669281,913,True,1,France,context1,context2,paris,0.21171875
+11,16568.68600845337,971,False,2,The Netherlands,context1,context2,amsterdam,0.39921874999999996
+12,17539.344787597656,960,True,1,France,context1,context2,paris,0.21210937500000002
+13,18499.788999557495,839,False,2,The Netherlands,context1,context2,amsterdam,0.4488281249999999
+14,19338.703393936157,862,True,1,France,context1,context2,paris,0.21250000000000002
