@@ -1,6 +1,6 @@
 import time 
 from slimstampen.spacingmodel import SpacingModel, Fact, Response
-
+import pandas as pd
 
 # Fact List
 france = Fact(fact_id = 1, question = "France", context1 = "context1", context2 ="context2", answer = "paris")
@@ -9,6 +9,30 @@ finland = Fact(fact_id = 3, question = "Finland", context1 = "context1", context
 
 def get_facts():
     return [france, netherlands, finland]
+
+
+def get_random_fact_from_csv(csv_filename):
+    # Read the CSV file into a DataFrame
+    df = pd.read_csv(csv_filename)
+
+    # Select a random row from the DataFrame
+    random_row = df.sample(n=1).iloc[0]
+
+    # Create a Fact object from the random row
+    fact = Fact(
+        fact_id=int(random_row['fact_id']),
+        question=random_row['question'],
+        context1=random_row['context1'],
+        context2=random_row['context2'],
+        answer=random_row['answer']
+    )
+
+    return fact
+
+# Example usage
+csv_filename = 'all-continents.csv'
+random_fact = get_random_fact_from_csv(csv_filename)
+# print(f"Question: {random_fact.question}, Answer: {random_fact.answer}")
 
 model = SpacingModel()
 model.add_fact(france)

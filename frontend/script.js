@@ -4,12 +4,25 @@ let currentFact = null;
 function fetchFacts() {
     const apiUrl = 'http://localhost:5000/api/facts';
     fetch(apiUrl)
-        .then(response => response.json())
+        .then(response => {
+            // Log the response headers
+            console.log('Response Headers:', response.headers);
+            // Get and log the response text
+            return response.text().then(text => {
+                console.log('Response Text:', text);
+                // Try to parse the text as JSON
+                try {
+                    const data = JSON.parse(text);
+                    return data;
+                } catch (error) {
+                    // If parsing fails, throw an error
+                    throw new Error('Server response is not valid JSON');
+                }
+            });
+        })
         .then(data => {
-            // Select a random fact
-            const randomIndex = Math.floor(Math.random() * data.length);
-            currentFact = data[randomIndex];
-            // Display the question
+            // Handle the JSON data here
+            currentFact = data;
             document.getElementById('question').textContent = `What is the capital of ${currentFact.question}?`;
         })
         .catch(error => {
@@ -23,7 +36,9 @@ function submitAnswer() {
     const feedbackDiv = document.getElementById('feedback');
     feedbackDiv.style.opacity = '0';
     setTimeout(() => {
-        if (userAnswer === currentFact.answer.toLowerCase()) {
+        // Ensure currentFact.answer is a string and trim it
+        const correctAnswer = (currentFact.answer || "").toString().trim().toLowerCase();
+        if (userAnswer === correctAnswer) {
             feedbackDiv.textContent = 'Correct!';
             feedbackDiv.style.color = 'green';
         } else {
