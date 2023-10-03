@@ -1,79 +1,73 @@
-import time 
+import time
 from slimstampen.spacingmodel import SpacingModel, Fact, Response
 import pandas as pd
 
-# Fact List
-france = Fact(fact_id = 1, question = "France", context1 = "context1", context2 ="context2", answer = "paris")
-netherlands = Fact(fact_id = 2, question = "The Netherlands", context1 = "context1", context2 ="context2", answer = "amsterdam")
-finland = Fact(fact_id = 3, question = "Finland", context1 = "context1", context2 ="context2", answer = "helsinki")
-
-def get_facts():
-    return [france, netherlands, finland]
+# keep track of time in ms
 
 
-def get_random_fact_from_csv(csv_filename):
-    # Read the CSV file into a DataFrame
-    df = pd.read_csv(csv_filename)
+class Time:
+    def __init__(self, session_time):
+        self.start_time = time.time() * 1000
+        self.session_time = session_time * 60 * 1000
+        self.start_rt = 0.0
+        self.end_rt = 0.0
 
-    # Select a random row from the DataFrame
-    random_row = df.sample(n=1).iloc[0]
+    def get_time(self):
+        return time.time() * 1000
+    
+    def get_elapsed_time(self):
+        if self.start_time is not None:
+            return self.get_time() - self.start_time
 
-    # Create a Fact object from the random row
-    fact = Fact(
-        fact_id=int(random_row['fact_id']),
-        question=random_row['question'],
-        context1=random_row['context1'],
-        context2=random_row['context2'],
-        answer=random_row['answer']
-    )
+    def start_tracking_rt(self):
+        self.start_rt = self.get_time()
 
-    return fact
+    def end_tracking_rt(self):
+        self.end_rt = self.get_time()
 
-# Example usage
-csv_filename = 'all-continents.csv'
-random_fact = get_random_fact_from_csv(csv_filename)
-# print(f"Question: {random_fact.question}, Answer: {random_fact.answer}")
+    def get_rt(self):
+        return self.end_rt - self.start_rt
 
-model = SpacingModel()
-model.add_fact(france)
-model.add_fact(netherlands)
-model.add_fact(finland)
+class Facts:
+    def __init__(self, continent):
+        self.model = SpacingModel()
+        self.continent = continent
+        self.current_fact = None
 
+    # generate the facts and populate the model
+    def generate(self):
+        df = pd.read_csv('all-continents.csv')
+        df_filtered = df[df['continent'] == self.continent]
 
-session_start = time.time()
-session_length = 20
+        for _, row in df_filtered.iterrows():
+            fact = Fact(fact_id=int(row['fact_id']),
+                        question=row['question'],
+                        context1=row['context1'],
+                        context2=row['context2'],
+                        answer=row['answer'])
 
+            self.model.add_fact(fact)
 
-# main loop
-# while True:
-#
-#     # exit when session length has been reached
-#     elapsed_time = time.time() - session_start
-#     if elapsed_time >= session_length:
-#         break
-#
-#     # get fact
-#     next_fact, new = model.get_next_fact(current_time = elapsed_time)
-#     rof = model.get_rate_of_forgetting(elapsed_time * 1000, next_fact)
-#
-#     if rof >= 0.4:
-#         print(next_fact.context1)
-#
-#     if rof >= 0.5:
-#         print(next_fact.context2)
-#
-#
-#     user_answer = input("What is the capital of {}? \n".format(next_fact.question)).lower()
-#     print("Rate of Forgetting: {}".format(rof))
-#
-#     # register the reponse
-#     rt = round((time.time() - session_start - elapsed_time) * 1000)
-#     start_time = elapsed_time * 1000
-#     correct = user_answer == next_fact.answer
-#     print(correct)
-#     resp = Response(fact = next_fact, start_time = start_time, rt = rt, correct = correct)
-#     model.register_response(resp)
-#
-#     print()
-#
+    # pulls the infomation to display from the model
+    def question(self, current_time):
+        self.current_fact, new = self.model.get_next_fact(current_time)
+        rof = self.model.get_rate_of_forgetting(current_time, self.current_fact)
+
+        # DOES NOT RETURN THIS INFO YET
+        if rof >= 0.4:
+            show_context1 = True
+        
+        if rof >= 0.5:
+            show_context2 = True
+
+        return self.current_fact
+
+    # post the user response back to the model
+    def answer(self, start_time, rt, user_answer):
+
+        print("RT: {}".format(rt/1000))
+
+        resp = Response(fact = self.current_fact, start_time = start_time, rt = rt, correct = user_answer == self.current_fact.answer)
+        self.model.register_response(resp)
+
 # model.export_data("data.csv")

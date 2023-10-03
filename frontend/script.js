@@ -32,12 +32,23 @@ function fetchFacts() {
 
 // Function to submit the answer and check it against the fact.answer
 function submitAnswer() {
-    const userAnswer = document.getElementById('answer').value.trim().toLowerCase();
+    const userAnswer = document.getElementById('answer').value.trim();
+    const capitalizedUserAnswer = userAnswer.charAt(0).toUpperCase() + userAnswer.slice(1);
+
+
+    // send the user answer to the backend
+    fetch('http://localhost:5000/api/submit_answer', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ userAnswer: capitalizedUserAnswer}),
+    })   
+
     const feedbackDiv = document.getElementById('feedback');
     feedbackDiv.style.opacity = '0';
     setTimeout(() => {
         // Ensure currentFact.answer is a string and trim it
-        const correctAnswer = (currentFact.answer || "").toString().trim().toLowerCase();
         if (userAnswer === correctAnswer) {
             feedbackDiv.textContent = 'Correct!';
             feedbackDiv.style.color = 'green';
