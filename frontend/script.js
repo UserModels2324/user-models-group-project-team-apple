@@ -1,8 +1,8 @@
 let currentFact = null;
 
 // Function to fetch facts from the backend
-function fetchFacts() {
-    const apiUrl = 'http://localhost:5000/api/facts';
+function question() {
+    const apiUrl = 'http://localhost:5000/api/question';
     fetch(apiUrl)
         .then(response => {
             // Log the response headers
@@ -30,35 +30,43 @@ function fetchFacts() {
         });
 }
 
-// Function to submit the answer and check it against the fact.answer
-function submitAnswer() {
+function answer() {
     const userAnswer = document.getElementById('answer').value.trim();
     const capitalizedUserAnswer = userAnswer.charAt(0).toUpperCase() + userAnswer.slice(1);
-
+    const feedbackDiv = document.getElementById('feedback');
+    feedbackDiv.style.opacity = '0';
 
     // send the user answer to the backend
-    fetch('http://localhost:5000/api/submit_answer', {
+    fetch('http://localhost:5000/api/answer', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ userAnswer: capitalizedUserAnswer}),
-    })   
+        body: JSON.stringify({ userAnswer: capitalizedUserAnswer }),
+    })
+        // .then(response => response.json())  // Assuming backend returns JSON
+        .then(() => {
+            // Assuming the backend sends back data indicating if the answer is correct
+            if (userAnswer === currentFact.answer) {
+                feedbackDiv.textContent = 'Correct!';
+                feedbackDiv.style.color = 'green';
+            } else {
+                feedbackDiv.textContent = `Wrong! The correct answer is ${currentFact.answer}.`;
+                feedbackDiv.style.color = 'red';
+            }
+            feedbackDiv.style.opacity = '1';
 
-    const feedbackDiv = document.getElementById('feedback');
-    feedbackDiv.style.opacity = '0';
-    setTimeout(() => {
-        // Ensure currentFact.answer is a string and trim it
-        if (userAnswer === correctAnswer) {
-            feedbackDiv.textContent = 'Correct!';
-            feedbackDiv.style.color = 'green';
-        } else {
-            feedbackDiv.textContent = `Wrong! The correct answer is ${currentFact.answer}.`;
-            feedbackDiv.style.color = 'red';
-        }
-        feedbackDiv.style.opacity = '1';
-    }, 500);
+            setTimeout(() => {
+                feedbackDiv.style.opacity = '0';
+            }, 1000); // fade out after 2 seconds
+
+            // After displaying feedback, fetch the next question
+            question();
+        })
+        .catch(error => {
+            console.error('Error submitting answer:', error);
+        });
 }
 
 // Call the fetchFacts function when the page loads
-window.onload = fetchFacts;
+window.onload = question();

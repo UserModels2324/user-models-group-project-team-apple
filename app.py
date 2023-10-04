@@ -9,16 +9,16 @@ app = Flask(__name__)
 CORS(app)
 
 # start the timer for 8 minutes
-timer  = Time(session_time=8)
+timer = Time(session_time=8)
 
 # generate the model
 europe = Facts("Europe")
 europe.generate()
 
 # This gets it from the main.py from the hard-coded values
-@app.route('/api/facts', methods=['GET'])
+@app.route('/api/question', methods=['GET'])
 def facts():
-    # Calls on the user model for the next fact to display. 
+    # Calls on the user model for the next fact to display.
     fact = europe.question(timer.get_elapsed_time())
     timer.start_tracking_rt()
 
@@ -33,17 +33,18 @@ def facts():
 
     return jsonify(fact_data)
 
-
 # posting the user answer to the backend
-@app.route('/api/submit_answer', methods=['POST'])
+@app.route('/api/answer', methods=['POST'])
 def submit_answer():
     data = request.get_json()  # Extract the JSON data from the request
-    user_answer = data.get('userAnswer')  # Get the user's answer from the JSON data
+    # Get the user's answer from the JSON data
+    user_answer = data.get('userAnswer')
     timer.end_tracking_rt()
 
     europe.answer(timer.get_elapsed_time(), timer.get_rt(), user_answer)
 
     return jsonify({'message': 'Answer received successfully'})
+
 
 if __name__ == '__main__':
     app.run(debug=True)

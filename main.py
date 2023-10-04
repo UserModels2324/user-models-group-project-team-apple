@@ -3,8 +3,6 @@ from slimstampen.spacingmodel import SpacingModel, Fact, Response
 import pandas as pd
 
 # keep track of time in ms
-
-
 class Time:
     def __init__(self, session_time):
         self.start_time = time.time() * 1000
@@ -28,6 +26,7 @@ class Time:
     def get_rt(self):
         return self.end_rt - self.start_rt
 
+# keeps track of the slimstampen model
 class Facts:
     def __init__(self, continent):
         self.model = SpacingModel()
