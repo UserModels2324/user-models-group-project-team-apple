@@ -1,3 +1,5 @@
+# Bridge between front end and back end info, translating layer, to run everything run app.py
+
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 import pandas as pd
@@ -19,7 +21,7 @@ europe.generate()
 @app.route('/api/question', methods=['GET'])
 def facts():
     # Calls on the user model for the next fact to display.
-    fact = europe.question(timer.get_elapsed_time())
+    fact = europe.question(timer.get_elapsed_time()) # europe is a continent, question is a function inside the class that calls/asks slimstampen for a question
     timer.start_tracking_rt()
 
     # Create a dictionary from the Fact object's attributes

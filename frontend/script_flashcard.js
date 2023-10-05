@@ -1,6 +1,7 @@
 let currentFact = null;
 
 // Function to fetch facts from the backend
+// Prompts the user with 'what is the capital of...'
 function question() {
     const apiUrl = 'http://localhost:5000/api/question';
     fetch(apiUrl)

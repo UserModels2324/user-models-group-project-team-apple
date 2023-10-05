@@ -1,3 +1,5 @@
+# This is the backend; everything that requires a timer
+
 import time
 from slimstampen.spacingmodel import SpacingModel, Fact, Response
 import pandas as pd
@@ -27,11 +29,11 @@ class Time:
         return self.end_rt - self.start_rt
 
 # keeps track of the slimstampen model
-class Facts:
-    def __init__(self, continent):
+class Facts: # slimstampen model put into a class
+    def __init__(self, continent): # we have as many models as continents
         self.model = SpacingModel()
         self.continent = continent
-        self.current_fact = None
+        self.current_fact = None # fact currently seen by user
 
     # generate the facts and populate the model
     def generate(self):

@@ -1,54 +1,184 @@
-/* Style for the body */
-body {
-    font-family: Arial, sans-serif;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 100vh;
+*{
     margin: 0;
-    background-color: #f8f8f8;
+    padding: 0;
+    font-family: 'Inclusive Sans', sans-serif;}
+.main{
+    width: 100%;
+    height: 100vh;
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(to right, hsl(40, 82%, 94%), #ffd480);
+    /* #9c27b0, #8ecdff 
+    #ffd699, #ffd699*/
+    /* #e6ffff */
+    /* hsl(270, 6%, 93%) */
+    
 }
 
-/* Style for the main container */
-#app {
-    text-align: center;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    padding: 20px;
-    background-color: white;
-    border-radius: 10px;
+/* quiz image */
+.feature span.material-symbols-outlined {
+    font-size: 85px; /* Adjust the size as needed */
+    /* Add other styles if necessary */
 }
 
-/* Style for the question */
-#question {
-    font-size: 24px;
-    margin-bottom: 20px;
-}
-
-/* Style for the input field */
-#answer {
-    padding: 10px;
-    font-size: 18px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
+/*#Ffb200, #FFA987*/
+nav{
     width: 80%;
+    position: sticky;
+    margin: 20px auto;
+    z-index: 1;
+    display: flex;
+    align-items: center
+}
+.logo{
+    flex-basis: 20%;
+}
+.logo img{
+    width: 150px;
+}
+.nav-links{
+    flex: 1;
+    text-align: right;
+}
+.nav-links ul li{
+    list-style: none;
+    display: inline-block;
+    margin: 0 20px;
+}
+.nav-links ul li a{ /* home contact */
+    color: #006666;
+    text-decoration: none;
+}
+.information{
+    width: 1000px;
+    height: 1000px;
+    position: absolute;
+    top: 50%;
+    left: -10%; /* 0*/
+    transform: translateY(-50%);
+}
+#circle{
+    width: 1000px;
+    height: 1000px;
+    position: absolute;
+    top: 0%; /* Position in the vertical center of the container */
+    left: 0%; /* Position in the horizontal center of the container */
+    transform: rotate(0deg);
+    transition: 1s;
+}
+.feature img{
+    width: 70px; /*100*/
+}
+.feature {
+    position: absolute;
+    display: flex;
+    color: #006666; 
+    /* comment the color out so that the items become black, and it's easier to see their orientation */
+}
+.feature div{
+    margin-left: 30px;
+}
+.feature div p{
+    margin-top: 8px;
+}
+.learn {
+    top: 450px;
+    right: 50px;
+    transform: translate(142px, 5px)
 }
 
-/* Style for the button */
-button {
-    margin-top: 15px;
-    padding: 10px 20px;
-    font-size: 18px;
-    background-color: #4CAF50;
-    color: white;
-    border: none;
-    border-radius: 5px;
+.quiz {
+    top: 150px;
+    left: 350px;
+    transform: translate(-30px, -20px) rotate(-90deg);
+}
+
+.dashboard {
+    bottom: 450px;
+    left: 50px;
+    transform: translate(-50px, -0px) rotate(-180deg);
+}
+
+.info {
+    bottom: 150px;
+    right: 350px;
+    transform: translate(70px, 60px) rotate(-270deg) ;
+}
+.flashlight{
+    width: 200px;
+    position: absolute;
+    top: 40%;
+    left: 35%;
+    transform: translateY(-50%);
+    z-index: 1;
+    transform: rotate(-45deg);
+}
+.controls{
+    position: absolute;
+    right: 10%;
+    top: 50%;
+    transform: translateY(-50%);
+    text-align: center;
+}
+.controls h3{
+    margin: 15px 0;
+    color: #006666;
+}
+#upBtn{
+    width: 45px;
+    cursor: pointer;
+}
+#downBtn{
+    width: 45px;
+    cursor: pointer;
+    transform: rotate(180deg);
+}
+.controls span.down {
+    transform: rotate(180deg);
+}
+.controls span.material-symbols-outlined {
+    color: #006666;
+    font-size: 45px; /* Adjust the size as needed */
     cursor: pointer;
 }
 
-/* Style for the feedback */
-#feedback {
-    margin-top: 20px;
-    font-size: 20px;
-    opacity: 0;
-    transition: opacity 0.5s, transform 0.5s;
+.overlay{
+    width: 0;
+    height: 0;
+    border-top: 500px solid  #006666;
+    border-right: 500px solid transparent;
+    border-bottom: 500px solid #006666;
+    border-left: 500px solid  #006666;
+    /* position: absolute; */
+    left: 0;
+    top: 0;
 }
+/* #ffe6e6 */
+
+
+
+/* added the following code to avoid the blue color of the links after clicking the icons */
+
+/* Style the link */
+.quiz-link {
+    text-decoration: none; /* Remove underline */
+    color: #006666; /* Set the initial color to match your theme */
+    cursor: pointer; /* Change cursor to pointer to indicate it's clickable */
+}
+
+/* Override the :visited style to prevent blue color */
+.quiz-link:visited {
+    color: #006666; /* Set the color to match your theme when visited */
+}
+
+body {
+    background-image: url('C:/Users/ckyri/OneDrive/Desktop/world_map/globe3.png'); /* Replace 'path-to-your-image.png' with the actual path to your image */
+    background-size: cover; /* Adjust to cover the entire viewport */
+    background-repeat: no-repeat; /* Prevent the image from repeating */
+    background-attachment: fixed; /* Fixed background for better visibility */
+    opacity: 1; /* Adjust the opacity as needed (0.0 to 1.0) */
+}
+
+
+
+

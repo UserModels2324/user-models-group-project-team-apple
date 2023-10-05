@@ -1,21 +1,137 @@
-<!DOCTYPE html>
-<html lang="en">
+<html>
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Facts Quiz</title>
-    <!-- Link to the external CSS file -->
+
+    <title>Website Design Using HTML and CSS</title>
     <link rel="stylesheet" href="style.css">
+    
+    <style>
+    body {
+        background-image: url('C:/Users/ckyri/OneDrive/Desktop/world_map/globe3.png');
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        opacity: 0.9;
+    }
+    </style>
+
 </head>
 <body>
-    <div id="app">
-        <h1>Facts Quiz</h1>
-        <p id="question"></p>
-        <input type="text" id="answer" placeholder="Your answer">
-        <button onclick="answer()">Submit</button>
-        <div id="feedback"></div>
+
+
+
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inclusive+Sans&display=swap" rel="stylesheet">
+
+    <!-- quiz icon -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+
+
+    <div class="main">
+        <nav>
+            <div class="logo">
+                <img src="images/logo_final.png">
+            </div>
+            <div class="nav-links">
+                <ul>
+                    <li><a href="#">Home</a></li>
+                    <li><a href="#">Contact</a></li>
+                </ul> 
+            </div>
+        </nav>
+
+        <div class="information">
+            <div class="overlay">
+            <img src="images/flashlight_latest1.png", class="flashlight">
+            <div id="circle">
+                <div class="feature learn">
+                    <span class="material-symbols-outlined">
+                        menu_book
+                    </span>
+                    <div>
+                       <h1>Learn</h1>
+                       <p>Memorize using our interface!</p>
+                    </div>
+                </div>
+                <div class="feature quiz">
+                    <a href="index_flashcard.html" class="quiz-link">
+
+                    <span class="material-symbols-outlined">
+                        edit_document
+                    </span>  
+                    </a>              
+                    <div>
+                        <h1>Quiz</h1>
+                        <p>Test your knowledge!</p> 
+                    </div>
+                </div>
+                <div class="feature dashboard">
+                    <span class="material-symbols-outlined">
+                        analytics
+                    </span>
+                    <div>
+                        <h1>Dashboard</h1>
+                        <p>Check your progress!</p> 
+                    </div>
+                </div>
+                <div class="feature info">
+                    <span class="material-symbols-outlined">
+                        info
+                    </span>
+                    <div>
+                        <h1>Info</h1>
+                        <p>Find out more about our app!</p> 
+                    </div>
+                </div>
+            </div>
+            </div>
+        </div>
+
+        <div class="controls">
+            <span span id="upBtn" class="material-symbols-outlined up">
+                expand_less
+            </span>
+            <div>
+            <h3>Scroll</h3>
+            </div>
+            <span span id="downBtn" class="material-symbols-outlined down">
+                expand_less
+            </span>
+        </div>
+
     </div>
-    <!-- Link to the external JavaScript file -->
-    <script src="script.js"></script>
+
+
+
+    <script>
+        var circle = document.getElementById("circle");
+        var upBtn = document.getElementById("upBtn");
+        var downBtn = document.getElementById("downBtn");
+
+        var rotateValue = circle.style.transform;
+        var rotateSum;
+
+        upBtn.onclick = function()
+        {
+            rotateSum = rotateValue  + "rotate(-90deg)";
+            circle.style.transform = rotateSum;
+            rotateValue = rotateSum;
+        }
+
+        downBtn.onclick = function()
+        {
+            rotateSum = rotateValue  + "rotate(90deg)";
+            circle.style.transform = rotateSum;
+            rotateValue = rotateSum;
+        }
+    </script>
+
+
+
+    <!-- <script src="script_flashcard.js"></script> -->
+
+
 </body>
 </html>
