@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Card Game</title>
+    <link rel="stylesheet" href="flashcard.css">
+</head>
+
+<body>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <div class="background-layer"></div>
+    <div class="overlay"></div>
+    <div id="backArrow" onclick="goBack()">
+        <span class="material-icons">arrow_back</span>
+    </div>
+    <div id="timer-display">
+        <span id="timer"></span>
+    </div>
+    <div class="session-selection">
+        <h2>Select Session Length</h2>
+        <div class="session-slider">
+            <input type="range" min="1" max="60" value="8" id="sessionLength" class="slider">
+        </div>
+        <span id="sessionValue">8 minutes</span>
+        <button onclick="startSession()">Start Session</button>
+    </div>
+    <div class="question-section" style="display: none;">
+        <div class="card">
+            <div class="card__inner">
+                <div class="card__face card__face--front app">
+                    <p id="question"></p>
+                    <input type="text" id="answer" placeholder="Your answer">
+                    <span id="error-message" style="color: red; font-size: 12px; margin-top: 10px"></span>
+                    <button onclick="answer()">Submit</button>
+                    <div id="feedback"></div>
+                </div>
+                <div class="card__face card__face--back">
+                    <div class="card__content">
+                        <div class="card__header" data-country=""></div>
+                        <div id="backFeedback"></div>
+                        <div class="card__body">
+                            <p id="country"></p>
+                            <p>Malta is an archipelago in the central Mediterranean...</p>
+                        </div>
+                    </div>
+                    <button id="nextButton" onclick="nextQuestion()">Next</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="flashcard.js"></script>
+</body>
+
+</html>

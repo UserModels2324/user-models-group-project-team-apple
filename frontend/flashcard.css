@@ -1,0 +1,333 @@
+:root {
+    --primary: #FFCE00;
+    --secondary: #FE4880;
+    --dark: #212121;
+    --light: #F3F3F3;
+    --green: #006666;
+    --yellow: #ffd480;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inclusive Sans', sans-serif;
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative; /* Added to position overlay and background-layer */
+    background-image: url('images/globe3.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(to right, hsl(40, 82%, 94%), #ffd480);
+    opacity: 0.7; /* Adjust the transparency of the gradient overlay */
+    z-index: 1;
+}
+
+.card {
+    margin: 0 auto;
+    width: 700px;
+    height: 600px;
+    perspective: 600px;
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    z-index: 2; /* Ensure the card is on top of the overlay and background */
+}
+
+.card {
+    margin: 0 auto;
+    width: 700px;
+    height: 600px;
+    perspective: 600px;
+    background-color: #ffffff; /* Solid white background */
+    border-radius: 10px; /* Rounded corners */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+    padding: 20px;
+}
+
+.card__inner {
+    width: 100%;
+    height: 100%;
+    transition: transform 1s;
+    transform-style: preserve-3d;
+    cursor: pointer;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.card__inner.is-flipped {
+    transform: rotateY(180deg);
+}
+
+.card__face {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    overflow: hidden;
+    border-radius: 16px;
+    box-shadow: 0px 3px 18px 3px rgba(0, 0, 0, 0.2);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.card__face--front {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+.card__face--front h2 {
+    color: black;
+    font-size: 32px;
+    text-align: center;
+}
+
+.card__face--back {
+    background-color: var(--light);
+    transform: rotateY(180deg);
+    position: relative;
+}
+
+.card__content {
+    width: 100%;
+    height: 100%;
+}
+
+.card__header {
+    position: relative;
+    height: 30%;
+    padding: 30px 30px 40px;
+    border-radius: 0 0 50% 0; /* Rounded corner on one side */
+    overflow: hidden;
+    background-size: cover; /* This will ensure the image covers the entire div */
+    background-position: center; /* This will center the image */
+}
+
+.card__header::before {
+    content: '';
+    position: absolute;
+    left: 10%; /* Adjust this value to position the logo on the left side */
+    top: 50%;
+    transform: translateY(-50%); /* Center the logo vertically */
+    width: 100px; /* Adjust this value based on your logo's size */
+    height: 100px; /* Adjust this value based on your logo's size */
+    background-image: url('images/logo_final.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+
+.card__header:after {
+    content: '';
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: -1;
+    border-radius: 0;
+    background-image: linear-gradient(to bottom right, var(--primary) 10%,
+    var(--secondary) 115%);
+}
+
+.pp {
+    display: block;
+    width: 128px;
+    height: 128px;
+    margin: 0 auto 30px;
+    border-radius: 50%;
+    background-color: #FFF;
+    border: 5px solid #FFF;
+    object-fit: cover;
+}
+
+.card__header h2 {
+    color: #FFF;
+    font-size: 32px;
+    font-weight: 900;
+    text-transform: uppercase;
+    text-align: center;
+}
+
+.card__body {
+    padding: 30px;
+}
+
+.card__body h3 {
+    color: var(--dark);
+    font-size: 24px;
+    font-weight: 600;
+    margin-bottom: 15px;
+}
+
+.card__body p {
+    color: var(--dark);
+    font-size: 18px;
+    line-height: 1.5;
+}
+
+/* Style for the question */
+#question {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+/* Style for the input field */
+#answer {
+    padding: 10px;
+    font-size: 18px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    width: 80%;
+}
+
+/* Style for the button */
+button {
+    margin-top: 15px;
+    padding: 10px 20px;
+    font-size: 18px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+/* Style for the feedback */
+#feedback {
+    margin-top: 20px;
+    font-size: 20px;
+    opacity: 0;
+    transition: opacity 0.5s, transform 0.5s;
+}
+
+/* Style for the main container */
+#app {
+    text-align: center;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    background-color: white;
+    border-radius: 10px;
+}
+
+#nextButton {
+    position: absolute;
+    top: 90%;
+    right: 20px;
+    transform: translateY(-50%);
+}
+
+#backFeedback {
+    text-align: center;
+    font-size: 24px;
+    margin-bottom: 15px;
+    margin-top: 25px;
+}
+
+#timer-display {
+    position: absolute;
+    top: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: rgba(255, 255, 255, 0.8);  /* Semi-transparent white background */
+    padding: 5px 10px;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    z-index: 10;  /* Ensure it's above other elements */
+}
+
+#timer {
+    font-size: 18px;
+    font-weight: bold;
+}
+
+#country {
+    font-size: 28px; /* Increase the font size */
+    font-weight: bold; /* Make it bold */
+    color: var(--dark); /* Use the dark color variable you have */
+    margin-bottom: 20px; /* Add some margin for spacing */
+    font-family: 'Inclusive Sans', sans-serif; /* Use the 'Inclusive Sans' font */
+}
+
+#backArrow {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    cursor: pointer;
+    font-size: 40px;
+    color: var(--dark); /* Use the dark color variable you have */
+    z-index: 10; /* Ensure it's above other elements */
+}
+
+.session-selection {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(255, 255, 255, 0.8);
+    padding: 20px;
+    border-radius: 10px;
+    z-index: 3;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.question-section {
+    z-index: 3;
+}
+
+.session-slider {
+    width: 80%;
+    margin: 20px 0;
+}
+
+#sessionValue {
+    margin-bottom: 20px;
+}
+
+#timer-display {
+    display: none;
+}
+
+.session-selection {
+    /* Match the size and positioning of the question div */
+    width: 80%; /* Adjust as needed */
+    margin: 0 auto;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    background-color: #fff;
+    text-align: center;
+}
+
+.session-slider input[type="range"] {
+    /* Adjust the slider size */
+    width: 80%; /* Adjust as needed */
+    height: 25px; /* Adjust as needed */
+    cursor: pointer;
+    margin: 20px 0;
+}

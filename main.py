@@ -28,6 +28,14 @@ class Time:
     def get_rt(self):
         return self.end_rt - self.start_rt
 
+    def get_remaining_time(self):
+        elapsed_time = self.get_elapsed_time()
+        remaining_time = self.session_time - elapsed_time
+        return max(0, remaining_time)
+
+    def start_timer(self):
+        self.start_time = time.time() * 1000
+
 # keeps track of the slimstampen model
 class Facts: # slimstampen model put into a class
     def __init__(self, continent): # we have as many models as continents

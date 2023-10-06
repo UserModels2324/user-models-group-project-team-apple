@@ -2,12 +2,12 @@
 
 <head>
 
-    <title>Website Design Using HTML and CSS</title>
-    <link rel="stylesheet" href="style.css">
+    <title>BrainLab</title>
+    <link rel="stylesheet" href="index.css">
     
     <style>
     body {
-        background-image: url('C:/Users/ckyri/OneDrive/Desktop/world_map/globe3.png');
+        background-image: url('images/globe3.png');
         background-size: cover;
         background-repeat: no-repeat;
         background-attachment: fixed;
@@ -17,9 +17,6 @@
 
 </head>
 <body>
-
-
-
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -38,6 +35,7 @@
                 <ul>
                     <li><a href="#">Home</a></li>
                     <li><a href="#">Contact</a></li>
+                    <li><a href="login.html">Log Out</a></li>
                 </ul> 
             </div>
         </nav>
@@ -46,6 +44,18 @@
             <div class="overlay">
             <img src="images/flashlight_latest1.png", class="flashlight">
             <div id="circle">
+                <div class="feature quiz">
+                    <a href="flashcard.html" class="quiz-link">
+
+                    <span class="material-symbols-outlined">
+                        edit_document
+                    </span>
+                    </a>
+                    <div>
+                        <h1>Quiz</h1>
+                        <p>Test your knowledge!</p>
+                    </div>
+                </div>
                 <div class="feature learn">
                     <span class="material-symbols-outlined">
                         menu_book
@@ -53,18 +63,6 @@
                     <div>
                        <h1>Learn</h1>
                        <p>Memorize using our interface!</p>
-                    </div>
-                </div>
-                <div class="feature quiz">
-                    <a href="index_flashcard.html" class="quiz-link">
-
-                    <span class="material-symbols-outlined">
-                        edit_document
-                    </span>  
-                    </a>              
-                    <div>
-                        <h1>Quiz</h1>
-                        <p>Test your knowledge!</p> 
                     </div>
                 </div>
                 <div class="feature dashboard">
@@ -102,36 +100,6 @@
         </div>
 
     </div>
-
-
-
-    <script>
-        var circle = document.getElementById("circle");
-        var upBtn = document.getElementById("upBtn");
-        var downBtn = document.getElementById("downBtn");
-
-        var rotateValue = circle.style.transform;
-        var rotateSum;
-
-        upBtn.onclick = function()
-        {
-            rotateSum = rotateValue  + "rotate(-90deg)";
-            circle.style.transform = rotateSum;
-            rotateValue = rotateSum;
-        }
-
-        downBtn.onclick = function()
-        {
-            rotateSum = rotateValue  + "rotate(90deg)";
-            circle.style.transform = rotateSum;
-            rotateValue = rotateSum;
-        }
-    </script>
-
-
-
-    <!-- <script src="script_flashcard.js"></script> -->
-
-
+    <script src="index.js"></script>
 </body>
 </html>

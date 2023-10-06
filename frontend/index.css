@@ -172,7 +172,7 @@ nav{
 }
 
 body {
-    background-image: url('C:/Users/ckyri/OneDrive/Desktop/world_map/globe3.png'); /* Replace 'path-to-your-image.png' with the actual path to your image */
+    background-image: url('images/globe3.png'); /* Replace 'path-to-your-image.png' with the actual path to your image */
     background-size: cover; /* Adjust to cover the entire viewport */
     background-repeat: no-repeat; /* Prevent the image from repeating */
     background-attachment: fixed; /* Fixed background for better visibility */

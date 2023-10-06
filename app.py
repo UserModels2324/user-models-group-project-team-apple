@@ -11,7 +11,7 @@ app = Flask(__name__)
 CORS(app)
 
 # start the timer for 8 minutes
-timer = Time(session_time=8)
+# timer = Time(session_time=8)
 
 # generate the model
 europe = Facts("Europe")
@@ -46,6 +46,25 @@ def submit_answer():
     europe.answer(timer.get_elapsed_time(), timer.get_rt(), user_answer)
 
     return jsonify({'message': 'Answer received successfully'})
+
+@app.route('/api/remaining_time', methods=['GET'])
+def get_remaining_time():
+    remaining_time_millis = timer.get_remaining_time()
+    remaining_minutes = int(remaining_time_millis / 60000)  # Convert to minutes
+    remaining_seconds = int((remaining_time_millis % 60000) / 1000)  # Convert to seconds
+    return jsonify({'minutes': remaining_minutes, 'seconds': remaining_seconds})
+
+@app.route('/api/start_timer', methods=['POST'])
+def start_timer():
+    data = request.get_json()
+    session_length = float(data['sessionLength']) # Convert to milliseconds if needed
+
+    # Initialize or update the timer with the provided session length
+    global timer
+    timer = Time(session_time=session_length)
+
+    return jsonify({'message': 'Timer started successfully'})
+
 
 
 if __name__ == '__main__':
