@@ -1,0 +1,63 @@
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #ebe5ea9e; 
+    margin: 0;
+    padding: 0;
+}
+img {
+    max-width: 1100px;  /* 1100 */
+    max-height: 1100px;  
+}
+
+
+.custom-button {
+    background-color: #db7f7f; /* Background color */
+    color: #db7f7f00; /* Text color */
+    border: none;
+    width: 60px; /* Set a fixed width for a circular shape */
+    height: 25px; /* Set a fixed height for a circular shape */
+    border-radius: 10%; /* Create a circular shape */
+    cursor: pointer;
+    position: absolute;
+    font-weight: bold;
+    display: flex;
+    justify-content: center;
+    align-items: center; /* Center text vertically and horizontally */
+    box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.2); /* Add shadow */
+
+
+}
+
+.custom-button:hover {
+    background-color: #f68a8a; /* Darker blue on hover */
+    color: #ffffff;
+    text-shadow: 4px 4px 8px rgba(0, 0, 0, 0.685);
+    transition: transform 0.2s ease-in-out;
+    font-size: 8px;
+    transform: perspective(500px) rotateX(2deg) scale(2); /* Create a debossed effect */
+}
+
+a {
+    text-decoration: none; /* Remove underline from links */
+}
+
+#backArrow {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    cursor: pointer;
+    font-size: 40px;
+    color: var(--dark); /* Use the dark color variable you have */
+    z-index: 10; /* Ensure it's above other elements */
+}
+
+
+
+
+
+
+
+
