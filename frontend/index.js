@@ -18,3 +18,7 @@ downBtn.onclick = function()
     circle.style.transform = rotateSum;
     rotateValue = rotateSum;
 }
+
+function redirectTo(page) {
+    window.location.href = page;
+}

@@ -1,5 +1,7 @@
 let currentFact = null;
 let context = false;
+let correctCount = 0;
+let incorrectCount = 0;
 
 const card = document.querySelector('.card__inner');
 
@@ -7,7 +9,7 @@ const card = document.querySelector('.card__inner');
 // Prompts the user with 'what is the capital of...'
 function question() {
     const apiUrl = 'http://localhost:5000/api/question';
-    fetch(apiUrl)
+    return fetch(apiUrl)
         .then(response => {
             // Log the response headers
             console.log('Response Headers:', response.headers);
@@ -78,9 +80,11 @@ function answer() {
             if (userAnswer === currentFact.answer) {
                 backFeedbackDiv.textContent = 'Correct!';
                 backFeedbackDiv.style.color = 'green';
+                correctCount++;
             } else {
                 backFeedbackDiv.textContent = `Wrong! The correct answer is ${currentFact.answer}.`;
                 backFeedbackDiv.style.color = 'red';
+                incorrectCount++;
             }
             errorMessageElement.textContent = '';  // Clear the error message after processing the answer
         })
@@ -92,17 +96,31 @@ function answer() {
 
 function nextQuestion() {
     // Fetch the next question
-    question();
-    // Flip the card back to the front
-    card.classList.toggle('is-flipped');
+    question().then(() => {
+        // Clear the input field
+        document.getElementById('answer').value = '';
+
+        // Flip the card back to the front after the new question data has been processed
+        card.classList.toggle('is-flipped');
+    });
 }
 
 function updateRemainingTime() {
     fetch('http://localhost:5000/api/remaining_time')
         .then(response => response.json())
         .then(data => {
-            // Assuming you have an element with id="timer" to display the time
+            // Update the timer display
             document.getElementById('timer').textContent = `${data.minutes}m ${data.seconds}s left`;
+
+            // Check if the timer has finished
+            if (data.minutes === 0 && data.seconds === 0) {
+                // Store the results in localStorage
+                localStorage.setItem('correctCount', correctCount);
+                localStorage.setItem('incorrectCount', incorrectCount);
+
+                // Redirect to the feedback screen
+                window.location.href = 'feedback.html';
+            }
         });
 }
 

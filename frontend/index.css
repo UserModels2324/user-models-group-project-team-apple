@@ -72,7 +72,9 @@ nav{
 .feature {
     position: absolute;
     display: flex;
-    color: #006666; 
+    color: #006666;
+    cursor: pointer;
+    transition: background-color 0.3s;
     /* comment the color out so that the items become black, and it's easier to see their orientation */
 }
 .feature div{

@@ -11,7 +11,7 @@ app = Flask(__name__)
 CORS(app)
 
 # start the timer for 8 minutes
-# timer = Time(session_time=8)
+timer = Time(session_time=10)
 
 # generate the model
 europe = Facts("Europe")

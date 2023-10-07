@@ -1,0 +1,62 @@
+.feedback-container {
+    width: 80%;
+    margin: 0 auto;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    background-color: #fff;
+    text-align: center;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 2;
+}
+
+.feedback-content {
+    margin: 20px 0;
+    font-size: 20px;
+}
+
+.circle-chart {
+    position: relative;
+    width: 150px;
+    height: 150px;
+    margin: 20px auto;
+}
+
+.circular-chart {
+    display: block;
+    width: 100%;
+    max-width: 250px;
+    max-height: 250px;
+}
+
+.circle-bg {
+    fill: none;
+    stroke: #eee;
+    stroke-width: 3.8;
+}
+
+.circle {
+    fill: none;
+    stroke: #4CAF50; /* Color for the correct answers */
+    stroke-width: 2.8;
+    stroke-linecap: round;
+    animation: progress 1s ease-out forwards;
+}
+
+@keyframes progress {
+    0% {
+        stroke-dasharray: 0 100;
+    }
+}
+
+.circle-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 20px;
+    font-weight: bold;
+}

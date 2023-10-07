@@ -48,6 +48,9 @@ class Facts: # slimstampen model put into a class
         df = pd.read_csv('all-continents.csv')
         df_filtered = df[df['continent'] == self.continent]
 
+        # Shuffle the rows of the filtered dataframe
+        df_filtered = df_filtered.sample(frac=1).reset_index(drop=True)
+
         for _, row in df_filtered.iterrows():
             fact = Fact(fact_id=int(row['fact_id']),
                         question=row['question'],

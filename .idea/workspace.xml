@@ -2,14 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="8afbd064-fbf0-4aa8-bb1d-bac8a4919460" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/frontend/flashcard.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/app.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/flashcard.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/flashcard.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/index_flashcard.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/script_flashcard.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/index.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/style_flashcard.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/index.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -80,7 +77,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1696078700985</updated>
-      <workItem from="1696078707306" duration="29176000" />
+      <workItem from="1696078707306" duration="37112000" />
     </task>
     <servers />
   </component>
