@@ -1,0 +1,198 @@
+fact_id,continent,question,context1,context2,answer
+1,america,antigua and barbuda,"""""","""""",saint john's
+2,america,bahamas,"""""","""""",nassau
+3,america,barbados,"""""","""""",bridgetown
+4,america,belize,"""""","""""",belmopan
+5,america,canada,"""""","""""",ottawa
+6,america,costa rica,"""""","""""",san jose
+7,america,cuba,"""""","""""",havana
+8,america,dominica,"""""","""""",roseau
+9,america,dominican republic,"""""","""""",santo domingo
+10,america,el salvador,"""""","""""",san salvador
+11,america,grenada,"""""","""""",saint george's
+12,america,guatemala,"""""","""""",guatemala city
+13,america,haiti,"""""","""""",port-au-prince
+14,america,honduras,"""""","""""",tegucigalpa
+15,america,jamaica,"""""","""""",kingston
+16,america,mexico,"""""","""""",mexico city
+17,america,nicaragua,"""""","""""",managua
+18,america,panama,"""""","""""",panama city
+19,america,saint kitts and nevis,"""""","""""",basseterre
+20,america,saint lucia,"""""","""""",castries
+21,america,saint vincent and the grenadines,"""""","""""",kingstown
+22,america,trinidad and tobago,"""""","""""",port of spain
+23,america,united states,"""""","""""","washington, d.c."
+24,oceania,australia,"""""","""""",canberra
+25,oceania,fiji,"""""","""""",suva
+26,oceania,kiribati,"""""","""""",south tarawa
+27,oceania,marshall islands,"""""","""""",majuro
+28,oceania,micronesia,"""""","""""",palikir
+29,oceania,nauru,"""""","""""",yaren district
+30,oceania,new zealand,"""""","""""",wellington
+31,oceania,palau,"""""","""""",ngerulmud
+32,oceania,papua new guinea,"""""","""""",port moresby
+33,oceania,samoa,"""""","""""",apia
+34,oceania,solomon islands,"""""","""""",honiara
+35,oceania,tonga,"""""","""""",nuku'alofa
+36,oceania,tuvalu,"""""","""""",funafuti
+37,oceania,vanuatu,"""""","""""",port vila
+38,america,argentina,"""""","""""",buenos aires
+39,america,bolivia,"""""","""""",sucre
+40,america,brazil,"""""","""""",brasilia
+41,america,chile,"""""","""""",santiago
+42,america,colombia,"""""","""""",bogota
+43,america,ecuador,"""""","""""",quito
+44,america,guyana,"""""","""""",georgetown
+45,america,paraguay,"""""","""""",asuncion
+46,america,peru,"""""","""""",lima
+47,america,suriname,"""""","""""",paramaribo
+48,america,uruguay,"""""","""""",montevideo
+49,america,venezuela,"""""","""""",caracas
+50,europe,albania,"""""","""""",tirana
+51,europe,andorra,"""""","""""",andorra la vella
+52,europe,austria,"""""","""""",vienna
+53,europe,belarus,"""""","""""",minsk
+54,europe,belgium,"""""","""""",brussels
+55,europe,bosnia and herzegovina,"""""","""""",sarajevo
+56,europe,bulgaria,"""""","""""",sofia
+57,europe,croatia,"""""","""""",zagreb
+58,europe,cyprus,"""""","""""",nicosia
+59,europe,czech republic,"""""","""""",prague
+60,europe,denmark,"""""","""""",copenhagen
+61,europe,estonia,"""""","""""",tallinn
+62,europe,finland,"""""","""""",helsinki
+63,europe,france,"""""","""""",paris
+64,europe,germany,"""""","""""",berlin
+65,europe,greece,"""""","""""",athens
+66,europe,hungary,"""""","""""",budapest
+67,europe,iceland,"""""","""""",reykjavik
+68,europe,ireland,"""""","""""",dublin
+69,europe,italy,"""""","""""",rome
+70,europe,latvia,"""""","""""",riga
+71,europe,liechtenstein,"""""","""""",vaduz
+72,europe,lithuania,"""""","""""",vilnius
+73,europe,luxembourg,"""""","""""",luxembourg city
+74,europe,malta,"""""","""""",valletta
+75,europe,moldova,"""""","""""",chisinau
+76,europe,monaco,"""""","""""",monaco
+77,europe,montenegro,"""""","""""",podgorica
+78,europe,netherlands,"""""","""""",amsterdam
+79,europe,north macedonia,"""""","""""",skopje
+80,europe,norway,"""""","""""",oslo
+81,europe,poland,"""""","""""",warsaw
+82,europe,portugal,"""""","""""",lisbon
+83,europe,romania,"""""","""""",bucharest
+84,europe,russia,"""""","""""",moscow
+85,europe,san marino,"""""","""""",san marino
+86,europe,serbia,"""""","""""",belgrade
+87,europe,slovakia,"""""","""""",bratislava
+88,europe,slovenia,"""""","""""",ljubljana
+89,europe,spain,"""""","""""",madrid
+90,europe,sweden,"""""","""""",stockholm
+91,europe,switzerland,"""""","""""",bern
+92,europe,ukraine,"""""","""""",kyiv
+93,europe,united kingdom,"""""","""""",london
+94,europe,vatican city,"""""","""""",vatican city
+95,asia,afghanistan,"""""","""""",kabul
+96,asia,armenia,"""""","""""",yerevan
+97,asia,azerbaijan,"""""","""""",baku
+98,asia,bahrain,"""""","""""",manama
+99,asia,bangladesh,"""""","""""",dhaka
+100,asia,bhutan,"""""","""""",thimphu
+101,asia,brunei,"""""","""""",bandar seri begawan
+102,asia,cambodia,"""""","""""",phnom penh
+103,asia,china,"""""","""""",beijing
+104,asia,cyprus,"""""","""""",nicosia
+105,asia,georgia,"""""","""""",tbilisi
+106,asia,india,"""""","""""",new delhi
+107,asia,indonesia,"""""","""""",jakarta
+108,asia,iran,"""""","""""",tehran
+109,asia,iraq,"""""","""""",baghdad
+110,asia,israel,"""""","""""",jerusalem
+111,asia,japan,"""""","""""",tokyo
+112,asia,jordan,"""""","""""",amman
+113,asia,kazakhstan,"""""","""""",nur-sultan
+114,asia,kuwait,"""""","""""",kuwait city
+115,asia,kyrgyzstan,"""""","""""",bishkek
+116,asia,laos,"""""","""""",vientiane
+117,asia,lebanon,"""""","""""",beirut
+118,asia,malaysia,"""""","""""",kuala lumpur
+119,asia,maldives,"""""","""""",male
+120,asia,mongolia,"""""","""""",ulaanbaatar
+121,asia,myanmar,"""""","""""",naypyidaw
+122,asia,nepal,"""""","""""",kathmandu
+123,asia,north korea,"""""","""""",pyongyang
+124,asia,oman,"""""","""""",muscat
+125,asia,pakistan,"""""","""""",islamabad
+126,asia,palestine,"""""","""""",ramallah
+127,asia,philippines,"""""","""""",manila
+128,asia,qatar,"""""","""""",doha
+129,asia,russia,"""""","""""",moscow
+130,asia,saudi arabia,"""""","""""",riyadh
+131,asia,singapore,"""""","""""",singapore
+132,asia,south korea,"""""","""""",seoul
+133,asia,sri lanka,"""""","""""",sri jayawardenepura kotte
+134,asia,syria,"""""","""""",damascus
+135,asia,taiwan,"""""","""""",taipei
+136,asia,tajikistan,"""""","""""",dushanbe
+137,asia,thailand,"""""","""""",bangkok
+138,asia,timor-leste,"""""","""""",dili
+139,asia,turkey,"""""","""""",ankara
+140,asia,turkmenistan,"""""","""""",ashgabat
+141,asia,united arab emirates,"""""","""""",abu dhabi
+142,asia,uzbekistan,"""""","""""",tashkent
+143,asia,vietnam,"""""","""""",hanoi
+144,asia,yemen,"""""","""""",sana'a
+145,africa,algeria,"""""","""""",algiers
+146,africa,angola,"""""","""""",luanda
+147,africa,benin,"""""","""""",porto-novo
+148,africa,botswana,"""""","""""",gaborone
+149,africa,burkina faso,"""""","""""",ouagadougou
+150,africa,burundi,"""""","""""",gitega
+151,africa,cabo verde,"""""","""""",praia
+152,africa,cameroon,"""""","""""",yaounde
+153,africa,central african republic,"""""","""""",bangui
+154,africa,chad,"""""","""""",n'djamena
+155,africa,comoros,"""""","""""",moroni
+156,africa,congo,"""""","""""",brazzaville
+157,africa,djibouti,"""""","""""",djibouti
+158,africa,egypt,"""""","""""",cairo
+159,africa,equatorial guinea,"""""","""""",malabo
+160,africa,eritrea,"""""","""""",asmara
+161,africa,eswatini,"""""","""""",mbabane
+162,africa,ethiopia,"""""","""""",addis ababa
+163,africa,gabon,"""""","""""",libreville
+164,africa,gambia,"""""","""""",banjul
+165,africa,ghana,"""""","""""",accra
+166,africa,guinea,"""""","""""",conakry
+167,africa,guinea-bissau,"""""","""""",bissau
+168,africa,ivory coast,"""""","""""",yamoussoukro
+169,africa,kenya,"""""","""""",nairobi
+170,africa,lesotho,"""""","""""",maseru
+171,africa,liberia,"""""","""""",monrovia
+172,africa,libya,"""""","""""",tripoli
+173,africa,madagascar,"""""","""""",antananarivo
+174,africa,malawi,"""""","""""",lilongwe
+175,africa,mali,"""""","""""",bamako
+176,africa,mauritania,"""""","""""",nouakchott
+177,africa,mauritius,"""""","""""",port louis
+178,africa,morocco,"""""","""""",rabat
+179,africa,mozambique,"""""","""""",maputo
+180,africa,namibia,"""""","""""",windhoek
+181,africa,niger,"""""","""""",niamey
+182,africa,nigeria,"""""","""""",abuja
+183,africa,rwanda,"""""","""""",kigali
+184,africa,sao tome and principe,"""""","""""",sao tome
+185,africa,senegal,"""""","""""",dakar
+186,africa,seychelles,"""""","""""",victoria
+187,africa,sierra leone,"""""","""""",freetown
+188,africa,somalia,"""""","""""",mogadishu
+189,africa,south africa,"""""","""""",pretoria
+190,africa,south sudan,"""""","""""",juba
+191,africa,sudan,"""""","""""",khartoum
+192,africa,tanzania,"""""","""""",dodoma
+193,africa,togo,"""""","""""",lome
+194,africa,tunisia,"""""","""""",tunis
+195,africa,uganda,"""""","""""",kampala
+196,africa,zambia,"""""","""""",lusaka
+197,africa,zimbabwe,"""""","""""",harare

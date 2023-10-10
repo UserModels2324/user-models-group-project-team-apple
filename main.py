@@ -42,10 +42,13 @@ class Facts: # slimstampen model put into a class
         self.model = SpacingModel()
         self.continent = continent
         self.current_fact = None # fact currently seen by user
+        self.rof_dict = {}
+
+        self.generate()
 
     # generate the facts and populate the model
     def generate(self):
-        df = pd.read_csv('all-continents.csv')
+        df = pd.read_csv('capitals.csv')
         df_filtered = df[df['continent'] == self.continent]
 
         # Shuffle the rows of the filtered dataframe
@@ -79,7 +82,23 @@ class Facts: # slimstampen model put into a class
 
         print("RT: {}".format(rt/1000))
 
+        # send answer to the model
         resp = Response(fact = self.current_fact, start_time = start_time, rt = rt, correct = user_answer == self.current_fact.answer)
         self.model.register_response(resp)
+
+        # add rof
+        rof = self.model.get_rate_of_forgetting(time=start_time, fact=self.current_fact)
+        fact_id = self.current_fact.fact_id
+        self.rof_dict[fact_id] = rof
+
+    def calculate_average_rof(self):
+
+        if len(self.rof_dict) != 0:
+            total_rof = sum(rof for rof in self.rof_dict.values())
+            average_rof = total_rof / len(self.rof_dict)
+            return average_rof
+        else:
+            return 0
+
 
 # model.export_data("data.csv")
