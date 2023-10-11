@@ -84,26 +84,26 @@ nav{
     margin-top: 8px;
 }
 .learn {
-    top: 450px;
+    top: 452px;
     right: 50px;
     transform: translate(142px, 5px)
 }
 
 .quiz {
-    top: 150px;
-    left: 350px;
+    top: 105px; /* right/left */
+    left: 393px;
     transform: translate(-30px, -20px) rotate(-90deg);
 }
 
 .dashboard {
-    bottom: 450px;
-    left: 50px;
+    bottom: 455px;
+    left: 30px;
     transform: translate(-50px, -0px) rotate(-180deg);
 }
 
 .info {
-    bottom: 150px;
-    right: 350px;
+    bottom: 100px;
+    right: 403px; /* up/down */
     transform: translate(70px, 60px) rotate(-270deg) ;
 }
 .flashlight{
