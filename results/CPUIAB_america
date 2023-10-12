@@ -1,0 +1,18 @@
+trial,start_time,rt,correct,fact_id,condition,question,text_context,image_context,answer,alpha
+1,1241.197021484375,1697121824741.2546,False,4,0,belize,,,belize,0.3
+2,4949.355224609375,2193.08935546875,False,4,0,belize,,,belize,0.3
+3,8195.928466796875,2049.718505859375,False,14,1,honduras,,,honduras,0.3
+4,11513.0732421875,2133.30517578125,False,14,1,honduras,,,honduras,0.29960937499999996
+5,40985.014892578125,27817.847412109375,False,9,2,dominican republic,,,dominican republic,0.349609375
+6,44189.736328125,1877.602783203125,False,22,3,trinidad and tobago,,,trinidad and tobago,0.3
+7,48044.9521484375,2543.31640625,False,9,2,dominican republic,,,dominican republic,0.3492187499999999
+8,51462.95751953125,2120.85888671875,False,22,3,trinidad and tobago,,,trinidad and tobago,0.29960937499999996
+9,55689.146728515625,2985.73095703125,False,4,0,belize,,,belize,0.349609375
+10,2477.380126953125,1697121986729.282,False,14,1,honduras,,,honduras,0.3
+11,6998.107177734375,3003.75390625,False,9,2,dominican republic,,,dominican republic,0.3
+12,10854.0068359375,2280.260498046875,False,22,3,trinidad and tobago,,,trinidad and tobago,0.3
+13,29834.87158203125,14553.12109375,False,9,2,dominican republic,,,dominican republic,0.3
+14,33290.12109375,2069.469482421875,False,46,0,peru,,,lima,0.3
+15,36451.49658203125,2066.94091796875,False,47,1,suriname,,,paramaribo,0.3
+16,39889.776123046875,2228.14453125,False,46,0,peru,,,lima,0.3
+17,43287.25,2143.320068359375,False,47,1,suriname,,,paramaribo,0.3

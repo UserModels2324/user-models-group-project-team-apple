@@ -22,3 +22,7 @@ downBtn.onclick = function()
 function redirectTo(page) {
     window.location.href = page;
 }
+
+
+
+

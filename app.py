@@ -1,5 +1,6 @@
 # Bridge between front end and back end info, translating layer, to run everything run app.py
 
+import secrets
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 import pandas as pd
@@ -13,44 +14,50 @@ CORS(app)
 # start the timer for 8 minutes
 timer = Time(session_time=10)
 
+# generate a participant ID 
+participant = ''.join(secrets.choice('0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ') for i in range(6))
 # generate the models
-europe = Facts("europe")
-asia = Facts("asia")
-africa = Facts("africa")
-oceania = Facts("oceania")
-america = Facts("america")
+europe = Facts("europe", participant)
+asia = Facts("asia", participant)
+africa = Facts("africa", participant)
+oceania = Facts("oceania", participant)
+america = Facts("america", participant)
 
 active_model = None
 
 # This gets it from the main.py from the hard-coded values
 @app.route('/api/question', methods=['GET'])
-def facts():
+def question():
     # Calls on the user model for the next fact to display.
     # europe is a continent, question is a function inside the class that calls/asks slimstampen for a question
 
     if active_model == "Europe":
-        fact = europe.question(timer.get_elapsed_time())
+        fact, new, rof = europe.question(timer.get_elapsed_time())
     if active_model == "Asia":
-        fact = asia.question(timer.get_elapsed_time())
+        fact, new, rof= asia.question(timer.get_elapsed_time())
     if active_model == "Africa":
-        fact = africa.question(timer.get_elapsed_time())
+        fact, new, rof= africa.question(timer.get_elapsed_time())
     if active_model == "Oceania":
-        fact = oceania.question(timer.get_elapsed_time())
+        fact, new, rof= oceania.question(timer.get_elapsed_time())
     if active_model == "America":
-        fact = america.question(timer.get_elapsed_time())
+        fact, new, rof= america.question(timer.get_elapsed_time())
 
+    # rof is a float representing the rate of forgetting
+    # new is a bool indicating whether the user is first seeing the fact.
     # Create a dictionary from the Fact object's attributes
-    fact_data = {
+
+    data = {
         "fact_id": fact.fact_id,
+        "condition": fact.condition,
         "question": fact.question,
-        "context1": fact.context1,
-        "context2": fact.context2,
+        "text_context": "fact.text_context",
+        "image_context": "fact.image_context",
         "answer": fact.answer,
     }
 
     timer.start_tracking_rt()
     
-    return jsonify(fact_data)
+    return jsonify(data)
 
 # posting the user answer to the backend
 @app.route('/api/answer', methods=['POST'])
@@ -116,6 +123,26 @@ def progress():
     }
 
     return jsonify(data) 
+
+@app.route('/api/results', methods=['POST'])
+def receive_results():
+    """
+    This function will respond to the result to dump the user results once the window is closed. 
+    """
+    data = request.get_json()
+
+    if active_model == "Europe":
+        europe.export()
+    if active_model == "Asia":
+        asia.export()
+    if active_model == "Africa":
+        africa.export()
+    if active_model == "Oceania":
+        oceania.export()
+    if active_model == "America":
+        america.export()
+
+    return jsonify({'message': 'Results Dumped!'})
 
 if __name__ == '__main__':
     app.run(debug=True)

@@ -1,8 +1,9 @@
 # This is the backend; everything that requires a timer
 
-import time
+import time, datetime
 from slimstampen.spacingmodel import SpacingModel, Fact, Response
 import pandas as pd
+
 
 # keep track of time in ms
 class Time:
@@ -38,7 +39,8 @@ class Time:
 
 # keeps track of the slimstampen model
 class Facts: # slimstampen model put into a class
-    def __init__(self, continent): # we have as many models as continents
+    def __init__(self, continent, participant): # we have as many models as continents
+        self.participant = participant
         self.model = SpacingModel()
         self.continent = continent
         self.current_fact = None # fact currently seen by user
@@ -48,34 +50,34 @@ class Facts: # slimstampen model put into a class
 
     # generate the facts and populate the model
     def generate(self):
-        df = pd.read_csv('capitals.csv')
+        df = pd.read_excel('capitals.xlsx')
         df_filtered = df[df['continent'] == self.continent]
 
-        # Shuffle the rows of the filtered dataframe
+        # shuffle the rows of the filtered dataframe
         df_filtered = df_filtered.sample(frac=1).reset_index(drop=True)
+
+        # generate a repeating sequence of values from 0 to 3
+        condition_values = [0, 1, 2, 3] * (len(df_filtered) // 4) + [0, 1, 2, 3][:len(df_filtered) % 4]
+
+        # assign the generated values to the 'condition' column
+        df_filtered['condition'] = condition_values
 
         for _, row in df_filtered.iterrows():
             fact = Fact(fact_id=int(row['fact_id']),
+                        condition=int(row['condition']),
                         question=row['question'],
-                        context1=row['context1'],
-                        context2=row['context2'],
+                        text_context=row['text_context'],
+                        image_context=row['image_context'],
                         answer=row['answer'])
 
             self.model.add_fact(fact)
-
+            
     # pulls the infomation to display from the model
     def question(self, current_time):
         self.current_fact, new = self.model.get_next_fact(current_time)
         rof = self.model.get_rate_of_forgetting(current_time, self.current_fact)
 
-        # DOES NOT RETURN THIS INFO YET
-        if rof >= 0.4:
-            show_context1 = True
-        
-        if rof >= 0.5:
-            show_context2 = True
-
-        return self.current_fact
+        return self.current_fact, new, rof
 
     # post the user response back to the model
     def answer(self, start_time, rt, user_answer):
@@ -101,4 +103,11 @@ class Facts: # slimstampen model put into a class
             return 0
 
 
-# model.export_data("data.csv")
+    def export(self):
+        """
+        exports all the slimstamppen model data, and saves the file as csv to the results folder, replacing the old file (no data is lost though).
+        for example: results/JG73SF_asia
+        JG73SF is the model ID or participant ID, which is followed by the continent model.
+        """
+        file_name = f"results/{self.participant}_{self.continent}"
+        self.model.export_data(file_name)

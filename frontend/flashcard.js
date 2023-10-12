@@ -118,8 +118,22 @@ function updateRemainingTime() {
                 localStorage.setItem('correctCount', correctCount);
                 localStorage.setItem('incorrectCount', incorrectCount);
 
-                // Redirect to the feedback screen
-                window.location.href = 'feedback.html';
+                // dump the results
+                fetch('http://localhost:5000/api/results', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ dump: true }),
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log(data.message);
+                        // Redirect to the feedback screen
+                        window.location.href = 'feedback.html';
+                    })
+                    .catch((error) => { console.error('Error:', error); });
+
             }
         });
 }
@@ -132,7 +146,7 @@ function goBack() {
 setInterval(updateRemainingTime, 1000);
 
 // Add event listener for the "Enter" key press on the input field
-document.getElementById('answer').addEventListener('keyup', function(event) {
+document.getElementById('answer').addEventListener('keyup', function (event) {
     const errorMessageElement = document.getElementById('error-message');
 
     // Check if the pressed key is "Enter"
@@ -146,7 +160,7 @@ document.getElementById('answer').addEventListener('keyup', function(event) {
     }
 });
 
-document.getElementById("sessionLength").addEventListener("input", function() {
+document.getElementById("sessionLength").addEventListener("input", function () {
     document.getElementById("sessionValue").textContent = this.value + " minutes";
 });
 
@@ -164,21 +178,21 @@ function startSession() {
             sessionLength: sessionLength
         }),
     })
-    .then(response => response.json())
-    .then(data => {
-        if (data.message === 'Timer started successfully') {
-            // Hide the session selection div
-            document.querySelector(".session-selection").style.display = "none";
+        .then(response => response.json())
+        .then(data => {
+            if (data.message === 'Timer started successfully') {
+                // Hide the session selection div
+                document.querySelector(".session-selection").style.display = "none";
 
-            // Load the first question or start the session as needed
-            // Here, you can integrate your existing code that starts the session, loads the first question, etc.
-        } else {
-            console.error("Failed to start the timer on the backend.");
-        }
-    })
-    .catch((error) => {
-        console.error('Error:', error);
-    });
+                // Load the first question or start the session as needed
+                // Here, you can integrate your existing code that starts the session, loads the first question, etc.
+            } else {
+                console.error("Failed to start the timer on the backend.");
+            }
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+        });
 
     // Initialize and start the timer display
     document.getElementById('timer').textContent = `${document.getElementById('sessionLength').value}m 0s left`;
