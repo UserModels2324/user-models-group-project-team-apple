@@ -37,15 +37,18 @@ body::after { /* Add this block */
 
 
 #mapContainer {
+    display: inline-block;
+    text-align: center;
+    min-width: 700px; /* Set the minimum width to the actual width of the map image */
+    width: 100%; /* Take up available width, but don't go below the minimum width */
 
-    display:inline-block;
+}
 
- }
 
 
 img {
-    max-width: 1100px;  
-    max-height: 1100px;  
+    width: 60%;  
+    height: 60%;  
 }
 
 
@@ -53,8 +56,8 @@ img {
     background-color: #5e7171e5; /* Background color */
     color: #db7f7f00; /* Text color */
     border: none;
-    width: 60px; /* Set a fixed width for a circular shape */
-    height: 25px; /* Set a fixed height for a circular shape */
+    width: 4%; /* Set a fixed width for a circular shape */
+    height: 3%; /* Set a fixed height for a circular shape */
     border-radius: 10%; /* Create a circular shape */
     cursor: pointer;
     position: absolute;
@@ -63,7 +66,6 @@ img {
     justify-content: center;
     align-items: center; /* Center text vertically and horizontally */
     box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.2); /* Add shadow */
-
 
 }
 
@@ -91,6 +93,19 @@ a {
 }
 
 
+
+
+
+/* Define more media queries for different screen sizes as needed */
+
+
+
+/*
+
+
+
+
+*/
 
 
 
