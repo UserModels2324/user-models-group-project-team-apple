@@ -5,8 +5,8 @@ let incorrectCount = 0;
 
 const card = document.querySelector('.card__inner');
 
-const apiUrl = 'http://localhost:5000';
-const apiUrls = 'http://icojocaru4.pythonanywhere.com';
+// const apiUrl = 'http://localhost:5000';
+const apiUrl = 'http://icojocaru4.pythonanywhere.com';
 
 // Function to fetch facts from the backend
 // Prompts the user with 'what is the capital of...'

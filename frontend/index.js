@@ -2,8 +2,8 @@ var circle = document.getElementById("circle");
 var upBtn = document.getElementById("upBtn");
 var downBtn = document.getElementById("downBtn");
 
-const apiUrl = 'http://localhost:5000';
-const apiUrls = 'http://icojocaru4.pythonanywhere.com';
+// const apiUrl = 'http://localhost:5000';
+const apiUrl = 'http://icojocaru4.pythonanywhere.com';
 
 var rotateValue = circle.style.transform;
 var rotateSum;
@@ -34,7 +34,9 @@ function redirectTo(page) {
             if (data.message === 'User initialized successfully') {
                 // Redirect to the map page
                 window.location.href = page;
-            } else {
+            } else if ((data.message === 'User already initialized')){
+                window.location.href = page;
+            } else{
                 throw new Error('Failed to initialize user.');
             }
         })
