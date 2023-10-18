@@ -11,23 +11,14 @@ from flask_session import Session
 # Import the Time and Facts classes from main.py.
 from main import Time, Facts
 
-app = Flask(__name__)
+app = Flask(__name__,
+            static_url_path="",
+            static_folder="frontend")
+app.secret_key = '1234'
 CORS(app)
 
 app.config["SESSION_TYPE"] = "filesystem"
 Session(app)
-
-# start the timer for 8 minutes
-# timer = Time(session_time=10)
-
-# # generate a participant ID 
-# participant = ''.join(secrets.choice('0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ') for i in range(6))
-# # generate the models
-# europe = Facts("europe", participant)
-# asia = Facts("asia", participant)
-# africa = Facts("africa", participant)
-# oceania = Facts("oceania", participant)
-# america = Facts("america", participant)
 
 active_model = None
 
@@ -124,7 +115,9 @@ def submit_answer():
 
 @app.route('/api/remaining_time', methods=['GET'])
 def get_remaining_time():
+
     timer = session.get('timer')
+
     remaining_time_millis = timer.get_remaining_time()
     remaining_minutes = int(remaining_time_millis / 60000)  # Convert to minutes
     remaining_seconds = int((remaining_time_millis % 60000) / 1000)  # Convert to seconds
@@ -141,9 +134,10 @@ def start_timer():
     # timer = Time(session_time=session_length)
     # Get the timer from the session
     timer = session.get('timer')
+    timer = Time(session_time=15)
 
     # Update the timer's session time with the user-provided session length
-    timer.session_time = session_length * 60 * 1000
+    # timer.session_time = session_length * 60 * 1000
 
     return jsonify({'message': 'Timer started successfully'})
 

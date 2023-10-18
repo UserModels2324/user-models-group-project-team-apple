@@ -1,5 +1,5 @@
-const apiUrlLocal = 'http://localhost:5000/';
-const apiUrl = 'http://icojocaru4.pythonanywhere.com';
+const apiUrl = 'http://localhost:5000';
+const apiUrls = 'http://icojocaru4.pythonanywhere.com';
 
 function goBack() {
     window.location.href = 'index.html'; // Assuming your main menu page is named 'index.html'
