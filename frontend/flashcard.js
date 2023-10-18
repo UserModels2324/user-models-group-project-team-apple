@@ -4,12 +4,12 @@ let correctCount = 0;
 let incorrectCount = 0;
 
 const card = document.querySelector('.card__inner');
+const apiUrl = 'http://icojocaru4.pythonanywhere.com';
 
 // Function to fetch facts from the backend
 // Prompts the user with 'what is the capital of...'
 function question() {
-    const apiUrl = 'http://localhost:5000/api/question';
-    return fetch(apiUrl)
+    return fetch(apiUrl + '/api/question')
         .then(response => {
             // Log the response headers
             console.log('Response Headers:', response.headers);
@@ -66,7 +66,7 @@ function answer() {
     const backFeedbackDiv = document.getElementById('backFeedback');
 
     // send the user answer to the backend
-    fetch('http://localhost:5000/api/answer', {
+    fetch(apiUrl + '/api/answer', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -106,7 +106,7 @@ function nextQuestion() {
 }
 
 function updateRemainingTime() {
-    fetch('http://localhost:5000/api/remaining_time')
+    fetch(apiUrl + '/api/remaining_time')
         .then(response => response.json())
         .then(data => {
             // Update the timer display
@@ -119,7 +119,7 @@ function updateRemainingTime() {
                 localStorage.setItem('incorrectCount', incorrectCount);
 
                 // dump the results
-                fetch('http://localhost:5000/api/results', {
+                fetch(apiUrl + '/api/results', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -169,7 +169,7 @@ function startSession() {
     const sessionLength = document.getElementById("sessionLength").value;
 
     // Send the session length to the backend to start the timer
-    fetch('http://localhost:5000/api/start_timer', {
+    fetch(apiUrl + '/api/start_timer', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
