@@ -4,6 +4,8 @@ let correctCount = 0;
 let incorrectCount = 0;
 
 const card = document.querySelector('.card__inner');
+
+const apiUrlLocal = 'http://localhost:5000/';
 const apiUrl = 'http://icojocaru4.pythonanywhere.com';
 
 // Function to fetch facts from the backend

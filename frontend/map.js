@@ -1,3 +1,4 @@
+const apiUrlLocal = 'http://localhost:5000/';
 const apiUrl = 'http://icojocaru4.pythonanywhere.com';
 
 function goBack() {
