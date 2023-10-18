@@ -18,7 +18,7 @@ app.config["SESSION_TYPE"] = "filesystem"
 Session(app)
 
 # start the timer for 8 minutes
-timer = Time(session_time=10)
+# timer = Time(session_time=10)
 
 # # generate a participant ID 
 # participant = ''.join(secrets.choice('0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ') for i in range(6))
@@ -39,6 +39,9 @@ def init():
         participant = ''.join(secrets.choice('0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ') for i in range(6))
         session["participant"] = participant
 
+        # Initialize the timer with a default value of 15 minutes
+        session['timer'] = Time(session_time=15)
+
         # Generate the models
         session['europe'] = Facts("europe", participant)
         session['asia'] = Facts("asia", participant)
@@ -55,6 +58,7 @@ def init():
 # This gets it from the main.py from the hard-coded values
 @app.route('/api/question', methods=['GET'])
 def question():
+    timer = session.get('timer')
     # Calls on the user model for the next fact to display.
     # europe is a continent, question is a function inside the class that calls/asks slimstampen for a question
 
@@ -94,7 +98,7 @@ def question():
 # posting the user answer to the backend
 @app.route('/api/answer', methods=['POST'])
 def submit_answer():
-
+    timer = session.get('timer')
     timer.end_tracking_rt()
 
     data = request.get_json()
@@ -120,6 +124,7 @@ def submit_answer():
 
 @app.route('/api/remaining_time', methods=['GET'])
 def get_remaining_time():
+    timer = session.get('timer')
     remaining_time_millis = timer.get_remaining_time()
     remaining_minutes = int(remaining_time_millis / 60000)  # Convert to minutes
     remaining_seconds = int((remaining_time_millis % 60000) / 1000)  # Convert to seconds
@@ -132,8 +137,13 @@ def start_timer():
     session_length = float(data['sessionLength'])
 
     # Initialize or update the timer with the provided session length
-    global timer
-    timer = Time(session_time=session_length)
+    # global timer
+    # timer = Time(session_time=session_length)
+    # Get the timer from the session
+    timer = session.get('timer')
+
+    # Update the timer's session time with the user-provided session length
+    timer.session_time = session_length * 60 * 1000
 
     return jsonify({'message': 'Timer started successfully'})
 
