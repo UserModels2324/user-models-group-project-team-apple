@@ -1,75 +1,46 @@
 # Bridge between front end and back end info, translating layer, to run everything run app.py
+
 import secrets
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 import pandas as pd
 
-# user session functions
-from flask import session
-from flask_session import Session
+# Import the Time and Facts classes from main.py.
+from main import Time, Facts
 
-# Import Facts classes from main.py.
-from main import Facts
-
-app = Flask(__name__,
-            static_url_path="",
-            static_folder="frontend")
-app.secret_key = '1234'
+app = Flask(__name__)
 CORS(app)
 
-app.config["SESSION_TYPE"] = "filesystem"
-Session(app)
+# start the timer for 8 minutes
+timer = Time(session_time=10)
+
+# generate a participant ID 
+participant = ''.join(secrets.choice('0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ') for i in range(6))
+# generate the models
+europe = Facts("europe", participant)
+asia = Facts("asia", participant)
+africa = Facts("africa", participant)
+oceania = Facts("oceania", participant)
+america = Facts("america", participant)
 
 active_model = None
-
-# init the user data
-@app.route('/api/init', methods=['POST'])
-def init():
-
-    if "initialized" not in session:
-
-        participant = ''.join(secrets.choice('0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ') for i in range(6))
-        session["participant"] = participant
-
-        # Initialize the timer with a default value of 15 minutes
-
-        # Generate the models
-        session['europe'] = Facts("europe", participant)
-        session['asia'] = Facts("asia", participant)
-        session['africa'] = Facts("africa", participant)
-        session['oceania'] = Facts("oceania", participant)
-        session['america'] = Facts("america", participant)
-
-        session['initialized'] = True
-
-        return jsonify({'message': 'User initialized successfully'})
-    else:
-        return jsonify({'message': 'User already initialized'})
 
 # This gets it from the main.py from the hard-coded values
 @app.route('/api/question', methods=['GET'])
 def question():
-    
-    # takes the elapsed time from .js to feed to the model
-    elapsed = request.args.get('elapsed')
-
     # Calls on the user model for the next fact to display.
     # europe is a continent, question is a function inside the class that calls/asks slimstampen for a question
+
     if active_model == "Europe":
-        europe = session.get("europe")
-        fact, new, rof = europe.question(elapsed)
+        fact, new, rof = europe.question(timer.get_elapsed_time())
     if active_model == "Asia":
-        asia = session.get("asia")
-        fact, new, rof= asia.question(elapsed)
+        fact, new, rof= asia.question(timer.get_elapsed_time())
     if active_model == "Africa":
-        africa = session.get("africa")
-        fact, new, rof= africa.question(elapsed)
+        fact, new, rof= africa.question(timer.get_elapsed_time())
     if active_model == "Oceania":
-        oceania = session.get("oceania")
-        fact, new, rof= oceania.question(elapsed)
+        fact, new, rof= oceania.question(timer.get_elapsed_time())
     if active_model == "America":
-        america = session.get("america")
-        fact, new, rof= america.question(elapsed)
+        fact, new, rof= america.question(timer.get_elapsed_time())
 
     # rof is a float representing the rate of forgetting
     # new is a bool indicating whether the user is first seeing the fact.
@@ -86,34 +57,52 @@ def question():
         "answer": fact.answer,
     }
 
+    timer.start_tracking_rt()
+    
     return jsonify(data)
 
 # posting the user answer to the backend
 @app.route('/api/answer', methods=['POST'])
-def answer():
+def submit_answer():
+
+    timer.end_tracking_rt()
 
     data = request.get_json()
-    elapsed_time = data.get('elapsedTime')
     user_answer = data.get('userAnswer')
-    reaction_time = data.get('reactionTime')
 
     if active_model == "Europe":
-        europe = session.get("europe")
-        europe.answer(elapsed_time, reaction_time, user_answer)
+        europe.answer(timer.get_elapsed_time(), timer.get_rt(), user_answer)
     if active_model == "Asia":
-        asia = session.get("asia")
-        asia.answer(elapsed_time, reaction_time, user_answer)
+        asia.answer(timer.get_elapsed_time(), timer.get_rt(), user_answer)
     if active_model == "Africa":
-        africa = session.get("africa")
-        africa.answer(elapsed_time, reaction_time, user_answer)
+        africa.answer(timer.get_elapsed_time(), timer.get_rt(), user_answer)
     if active_model == "Oceania":
-        oceania = session.get("oceania")
-        oceania.answer(elapsed_time, reaction_time, user_answer)
+        oceania.answer(timer.get_elapsed_time(), timer.get_rt(), user_answer)
     if active_model == "America":
-        america = session.get("america")
-        america.answer(elapsed_time, reaction_time, user_answer)
+        america.answer(timer.get_elapsed_time(), timer.get_rt(), user_answer)
 
     return jsonify({'message': 'Answer received successfully'})
+
+@app.route('/api/remaining_time', methods=['GET'])
+def get_remaining_time():
+    remaining_time_millis = timer.get_remaining_time()
+    remaining_minutes = int(remaining_time_millis /
+                            60000)  # Convert to minutes
+    remaining_seconds = int((remaining_time_millis %
+                            60000) / 1000)  # Convert to seconds
+    return jsonify({'minutes': remaining_minutes, 'seconds': remaining_seconds})
+
+@app.route('/api/start_timer', methods=['POST'])
+def start_timer():
+    data = request.get_json()
+    # Convert to milliseconds if needed
+    session_length = float(data['sessionLength'])
+
+    # Initialize or update the timer with the provided session length
+    global timer
+    timer = Time(session_time=session_length)
+
+    return jsonify({'message': 'Timer started successfully'})
 
 @app.route('/api/continents', methods=['POST'])
 def submit_continent():
@@ -132,19 +121,14 @@ def receive_results():
     data = request.get_json()
 
     if active_model == "Europe":
-        europe = session.get("europe")
         europe.export()
     if active_model == "Asia":
-        asia = session.get("asia")
         asia.export()
     if active_model == "Africa":
-        africa = session.get("africa")
         africa.export()
     if active_model == "Oceania":
-        oceania = session.get("oceania")
         oceania.export()
     if active_model == "America":
-        america = session.get("america")
         america.export()
 
     return jsonify({'message': 'Results Dumped!'})

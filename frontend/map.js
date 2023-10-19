@@ -1,8 +1,4 @@
 const apiUrl = 'http://localhost:5000';
-<<<<<<< HEAD
-// const apiUrl = 'https://icojocaru4.pythonanywhere.com';
-=======
->>>>>>> localrevert
 
 function goBack() {
     window.location.href = 'index.html'; // Assuming your main menu page is named 'index.html'
