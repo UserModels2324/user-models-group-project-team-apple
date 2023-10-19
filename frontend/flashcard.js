@@ -47,10 +47,6 @@ class Time {
         const remainingTime = this.sessionTime - elapsedTime;
         return Math.max(0, remainingTime);
     }
-
-    startTimer() {
-        this.startTime = Date.now();
-    }
 }
 
 // starts a learning session.
