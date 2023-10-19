@@ -38,7 +38,7 @@ class Time {
         this.endRt = this.getTime();
     }
 
-    getgetReactionTime() {
+    getReactionTime() {
         return this.endRt - this.startRt;
     }
 
