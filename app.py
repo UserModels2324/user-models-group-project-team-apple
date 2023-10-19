@@ -8,8 +8,8 @@ import pandas as pd
 from flask import session
 from flask_session import Session
 
-# Import the Time and Facts classes from main.py.
-from main import Time, Facts
+# Import Facts classes from main.py.
+from main import Facts
 
 app = Flask(__name__,
             static_url_path="",
@@ -27,11 +27,11 @@ active_model = None
 def init():
 
     if "initialized" not in session:
+
         participant = ''.join(secrets.choice('0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ') for i in range(6))
         session["participant"] = participant
 
         # Initialize the timer with a default value of 15 minutes
-        session['timer'] = Time(session_time=15)
 
         # Generate the models
         session['europe'] = Facts("europe", participant)
@@ -44,30 +44,32 @@ def init():
 
         return jsonify({'message': 'User initialized successfully'})
     else:
-        return jsonify({'message': 'User already initialized'})
+        return jsonify({'message': 'User already initialized'})
 
 # This gets it from the main.py from the hard-coded values
 @app.route('/api/question', methods=['GET'])
 def question():
-    timer = session.get('timer')
+    
+    # takes the elapsed time from .js to feed to the model
+    elapsed = request.args.get('elapsed')
+
     # Calls on the user model for the next fact to display.
     # europe is a continent, question is a function inside the class that calls/asks slimstampen for a question
-
     if active_model == "Europe":
         europe = session.get("europe")
-        fact, new, rof = europe.question(timer.get_elapsed_time())
+        fact, new, rof = europe.question(elapsed)
     if active_model == "Asia":
         asia = session.get("asia")
-        fact, new, rof= asia.question(timer.get_elapsed_time())
+        fact, new, rof= asia.question(elapsed)
     if active_model == "Africa":
         africa = session.get("africa")
-        fact, new, rof= africa.question(timer.get_elapsed_time())
+        fact, new, rof= africa.question(elapsed)
     if active_model == "Oceania":
         oceania = session.get("oceania")
-        fact, new, rof= oceania.question(timer.get_elapsed_time())
+        fact, new, rof= oceania.question(elapsed)
     if active_model == "America":
         america = session.get("america")
-        fact, new, rof= america.question(timer.get_elapsed_time())
+        fact, new, rof= america.question(elapsed)
 
     # rof is a float representing the rate of forgetting
     # new is a bool indicating whether the user is first seeing the fact.
@@ -82,64 +84,34 @@ def question():
         "answer": fact.answer,
     }
 
-    timer.start_tracking_rt()
-    
     return jsonify(data)
 
 # posting the user answer to the backend
 @app.route('/api/answer', methods=['POST'])
-def submit_answer():
-    timer = session.get('timer')
-    timer.end_tracking_rt()
+def answer():
 
     data = request.get_json()
+    elapsed_time = data.get('elapsedTime')
     user_answer = data.get('userAnswer')
+    reaction_time = data.get('reactionTime')
 
     if active_model == "Europe":
         europe = session.get("europe")
-        europe.answer(timer.get_elapsed_time(), timer.get_rt(), user_answer)
+        europe.answer(elapsed_time, reaction_time, user_answer)
     if active_model == "Asia":
         asia = session.get("asia")
-        asia.answer(timer.get_elapsed_time(), timer.get_rt(), user_answer)
+        asia.answer(elapsed_time, reaction_time, user_answer)
     if active_model == "Africa":
         africa = session.get("africa")
-        africa.answer(timer.get_elapsed_time(), timer.get_rt(), user_answer)
+        africa.answer(elapsed_time, reaction_time, user_answer)
     if active_model == "Oceania":
         oceania = session.get("oceania")
-        oceania.answer(timer.get_elapsed_time(), timer.get_rt(), user_answer)
+        oceania.answer(elapsed_time, reaction_time, user_answer)
     if active_model == "America":
         america = session.get("america")
-        america.answer(timer.get_elapsed_time(), timer.get_rt(), user_answer)
+        america.answer(elapsed_time, reaction_time, user_answer)
 
     return jsonify({'message': 'Answer received successfully'})
-
-@app.route('/api/remaining_time', methods=['GET'])
-def get_remaining_time():
-
-    timer = session.get('timer')
-
-    remaining_time_millis = timer.get_remaining_time()
-    remaining_minutes = int(remaining_time_millis / 60000)  # Convert to minutes
-    remaining_seconds = int((remaining_time_millis % 60000) / 1000)  # Convert to seconds
-    return jsonify({'minutes': remaining_minutes, 'seconds': remaining_seconds})
-
-@app.route('/api/start_timer', methods=['POST'])
-def start_timer():
-    data = request.get_json()
-    # Convert to milliseconds if needed
-    session_length = float(data['sessionLength'])
-
-    # Initialize or update the timer with the provided session length
-    # global timer
-    # timer = Time(session_time=session_length)
-    # Get the timer from the session
-    timer = session.get('timer')
-    timer = Time(session_time=15)
-
-    # Update the timer's session time with the user-provided session length
-    # timer.session_time = session_length * 60 * 1000
-
-    return jsonify({'message': 'Timer started successfully'})
 
 @app.route('/api/continents', methods=['POST'])
 def submit_continent():
@@ -149,25 +121,6 @@ def submit_continent():
     active_model = data.get('continentChoice')
 
     return jsonify({'message': '{} Selected!'.format(data)})
-
-@app.route('/api/progress', methods=['GET'])
-def progress():
-
-    europe = session.get("europe")
-    asia = session.get("asia")
-    africa = session.get("africa")
-    oceania = session.get("oceania")
-    america = session.get("america")
-
-    data = {
-        'Europe': europe.calculate_average_rof() * 100, 
-        'Africa': africa.calculate_average_rof() * 100,
-        'Asia': asia.calculate_average_rof() * 100, 
-        'America': america.calculate_average_rof() * 100, 
-        'Oceania': oceania.calculate_average_rof() * 100,
-    }
-
-    return jsonify(data) 
 
 @app.route('/api/results', methods=['POST'])
 def receive_results():
