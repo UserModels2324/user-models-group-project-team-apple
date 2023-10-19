@@ -50,6 +50,8 @@ def question():
         "fact_id": fact.fact_id,
         "condition": fact.condition,
         "question": fact.question,
+        "new": new,
+        "rof": rof,
         "text_context": "fact.text_context",
         "image_context": "fact.image_context",
         "answer": fact.answer,
@@ -110,19 +112,6 @@ def submit_continent():
     active_model = data.get('continentChoice')
 
     return jsonify({'message': '{} Selected!'.format(data)})
-
-@app.route('/api/progress', methods=['GET'])
-def progress():
-
-    data = {
-        'Europe': europe.calculate_average_rof() * 100, 
-        'Africa': africa.calculate_average_rof() * 100,
-        'Asia': asia.calculate_average_rof() * 100, 
-        'America': america.calculate_average_rof() * 100, 
-        'Oceania': oceania.calculate_average_rof() * 100,
-    }
-
-    return jsonify(data) 
 
 @app.route('/api/results', methods=['POST'])
 def receive_results():

@@ -3,6 +3,8 @@ let context = false;
 let correctCount = 0;
 let incorrectCount = 0;
 
+let sessionStart = true
+
 const card = document.querySelector('.card__inner');
 
 // Function to fetch facts from the backend
@@ -113,7 +115,7 @@ function updateRemainingTime() {
             document.getElementById('timer').textContent = `${data.minutes}m ${data.seconds}s left`;
 
             // Check if the timer has finished
-            if (data.minutes === 0 && data.seconds === 0) {
+            if (data.minutes === 0 && data.seconds === 0 && sessionStart === false) {
                 // Store the results in localStorage
                 localStorage.setItem('correctCount', correctCount);
                 localStorage.setItem('incorrectCount', incorrectCount);
@@ -165,6 +167,7 @@ document.getElementById("sessionLength").addEventListener("input", function () {
 });
 
 function startSession() {
+    sessionStart = true
     // Get the selected session length
     const sessionLength = document.getElementById("sessionLength").value;
 
@@ -207,5 +210,6 @@ function startSession() {
     document.getElementById('timer-display').style.display = 'block';
 
     // Load the first question or start the session as needed
+    sessionStart = false
     question()
 }

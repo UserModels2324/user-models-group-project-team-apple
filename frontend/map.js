@@ -1,3 +1,5 @@
+const apiUrl = 'http://localhost:5000';
+
 function goBack() {
     window.location.href = 'index.html'; // Assuming your main menu page is named 'index.html'
 }
@@ -5,7 +7,7 @@ function goBack() {
 function handleButtonClick(event) {
     const buttonSelection = event.target.textContent;
 
-    fetch('http://localhost:5000/api/continents', {
+    fetch(apiUrl + '/api/continents', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
