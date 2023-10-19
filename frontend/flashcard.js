@@ -3,6 +3,8 @@ let context = false;
 let correctCount = 0;
 let incorrectCount = 0;
 
+let sessionStart = true
+
 const card = document.querySelector('.card__inner');
 
 const apiUrl = 'http://localhost:5000';
@@ -193,8 +195,16 @@ function nextQuestion() {
 
 function updateRemainingTime() {
 
+<<<<<<< HEAD
     remaining = sessionTimer.getRemainingTime();
     document.getElementById('timer').textContent = `${data.minutes}m ${data.seconds}s left`;
+=======
+            // Check if the timer has finished
+            if (data.minutes === 0 && data.seconds === 0 && sessionStart === false) {
+                // Store the results in localStorage
+                localStorage.setItem('correctCount', correctCount);
+                localStorage.setItem('incorrectCount', incorrectCount);
+>>>>>>> localrevert
 
     if (data.minutes === 0 && data.seconds === 0) {
         // Store the results in localStorage
@@ -230,3 +240,53 @@ document.getElementById("sessionLength").addEventListener("input", function () {
     document.getElementById("sessionValue").textContent = this.value + " minutes";
 });
 
+<<<<<<< HEAD
+=======
+function startSession() {
+    sessionStart = true
+    // Get the selected session length
+    const sessionLength = document.getElementById("sessionLength").value;
+
+    // Send the session length to the backend to start the timer
+    fetch('http://localhost:5000/api/start_timer', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            sessionLength: sessionLength
+        }),
+    })
+        .then(response => response.json())
+        .then(data => {
+            if (data.message === 'Timer started successfully') {
+                // Hide the session selection div
+                document.querySelector(".session-selection").style.display = "none";
+
+                // Load the first question or start the session as needed
+                // Here, you can integrate your existing code that starts the session, loads the first question, etc.
+            } else {
+                console.error("Failed to start the timer on the backend.");
+            }
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+        });
+
+    // Initialize and start the timer display
+    document.getElementById('timer').textContent = `${document.getElementById('sessionLength').value}m 0s left`;
+
+    // Hide the session selection div
+    document.querySelector('.session-selection').style.display = 'none';
+
+    // Show the question section div
+    document.querySelector('.question-section').style.display = 'block';
+
+    // Show the timer display
+    document.getElementById('timer-display').style.display = 'block';
+
+    // Load the first question or start the session as needed
+    sessionStart = false
+    question()
+}
+>>>>>>> localrevert

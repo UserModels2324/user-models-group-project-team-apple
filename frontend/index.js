@@ -3,7 +3,10 @@ var upBtn = document.getElementById("upBtn");
 var downBtn = document.getElementById("downBtn");
 
 const apiUrl = 'http://localhost:5000';
+<<<<<<< HEAD
 // const apiUrl = 'https://icojocaru4.pythonanywhere.com';
+=======
+>>>>>>> localrevert
 
 var rotateValue = circle.style.transform;
 var rotateSum;
@@ -23,6 +26,7 @@ downBtn.onclick = function()
 }
 
 function redirectTo(page) {
+<<<<<<< HEAD
     // If the "Learn" button is clicked
     if (page === 'map.html') {
         // Initialize the user and timer with base value
@@ -47,6 +51,9 @@ function redirectTo(page) {
         // If it's not the "Learn" button, just redirect
         window.location.href = page;
     }
+=======
+        window.location.href = page;
+>>>>>>> localrevert
 }
 
 

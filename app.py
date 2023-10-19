@@ -79,6 +79,8 @@ def question():
         "fact_id": fact.fact_id,
         "condition": fact.condition,
         "question": fact.question,
+        "new": new,
+        "rof": rof,
         "text_context": "fact.text_context",
         "image_context": "fact.image_context",
         "answer": fact.answer,
