@@ -48,9 +48,9 @@ class Facts: # slimstampen model put into a class
 
     # generate the facts and populate the model
     def generate(self):
-        df = pd.read_excel('capitals.xlsx')
-        df_filtered = df[df['continent'] == self.continent]
-
+        df = pd.read_excel('capitals2.xlsx')
+        # df_filtered = df[df['continent'] == self.continent]
+        df_filtered = df[(df['continent'] == self.continent) & df['text_context'].notna() & df['image_context'].notna()]
         # shuffle the rows of the filtered dataframe
         df_filtered = df_filtered.sample(frac=1).reset_index(drop=True)
 

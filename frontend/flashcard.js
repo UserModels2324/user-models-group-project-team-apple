@@ -31,11 +31,26 @@ function question() {
         .then(data => {
             // Handle the JSON data here
             currentFact = data;
-            document.getElementById('question').textContent = `What is the capital of ${currentFact.question}?`;
+
+            // Capitalize the first letter of the question (country) and answer (capital)
+            const capitalizedQuestion = capitalizeFirstLetter(currentFact.question);
+            const capitalizedAnswer = capitalizeFirstLetter(currentFact.answer);
+
+            document.getElementById('question').textContent = `What is the capital of ${capitalizedQuestion}?`;
 
             // Set the country name
             const countryElement = document.getElementById('country');
             countryElement.textContent = currentFact.question;
+
+            // If the fact is new, display the answer above the input field
+            const displayedAnswerElement = document.getElementById('displayedAnswer');
+            const answerInput = document.getElementById('answer');
+            if (currentFact.new) {
+                displayedAnswerElement.textContent = capitalizedAnswer;
+            } else {
+                displayedAnswerElement.textContent = ''; // Clear the displayed answer
+                answerInput.value = ''; // Clear the input field
+            }
 
             // Set the background image based on the country or use a generic image
             const cardHeader = document.querySelector('.card__header');
@@ -54,9 +69,52 @@ function question() {
         });
 }
 
+// function answer() {
+//     const userAnswer = document.getElementById('answer').value.trim();
+//     const errorMessageElement = document.getElementById('error-message');
+//
+//     // Check if the input is empty
+//     if (userAnswer === '') {
+//         errorMessageElement.textContent = 'You need to type in some answer!';
+//         return;  // Exit the function early
+//     }
+//
+//     const capitalizedUserAnswer = userAnswer.charAt(0).toUpperCase() + userAnswer.slice(1);
+//     const backFeedbackDiv = document.getElementById('backFeedback');
+//
+//     // send the user answer to the backend
+//     fetch('http://localhost:5000/api/answer', {
+//         method: 'POST',
+//         headers: {
+//             'Content-Type': 'application/json',
+//         },
+//         body: JSON.stringify({ userAnswer: capitalizedUserAnswer }),
+//     })
+//         .then(() => {
+//             // Flip the card after submitting the answer
+//             card.classList.toggle('is-flipped');
+//
+//             if (userAnswer === currentFact.answer) {
+//                 backFeedbackDiv.textContent = 'Correct!';
+//                 backFeedbackDiv.style.color = 'green';
+//                 correctCount++;
+//             } else {
+//                 backFeedbackDiv.textContent = `Wrong! The correct answer is ${currentFact.answer}.`;
+//                 backFeedbackDiv.style.color = 'red';
+//                 incorrectCount++;
+//             }
+//             errorMessageElement.textContent = '';  // Clear the error message after processing the answer
+//         })
+//         .catch(error => {
+//             console.error('Error submitting answer:', error);
+//         });
+// }
 function answer() {
     const userAnswer = document.getElementById('answer').value.trim();
     const errorMessageElement = document.getElementById('error-message');
+    // Capitalize the first letter of the question (country) and answer (capital)
+    const capitalizedQuestion = capitalizeFirstLetter(currentFact.question);
+    const capitalizedAnswer = capitalizeFirstLetter(currentFact.answer);
 
     // Check if the input is empty
     if (userAnswer === '') {
@@ -65,7 +123,12 @@ function answer() {
     }
 
     const capitalizedUserAnswer = userAnswer.charAt(0).toUpperCase() + userAnswer.slice(1);
-    const backFeedbackDiv = document.getElementById('backFeedback');
+    const feedbackStatusDiv = document.getElementById('feedbackStatus');
+    const feedbackDetailDiv = document.getElementById('feedbackDetail');
+    const correctTickElement = document.getElementById('correctTick');
+    const contextDisplayDiv = document.getElementById('contextDisplay');
+    const textContextDiv = document.querySelector('#contextDisplay .text-context');
+    const imageContextDiv = document.querySelector('#contextDisplay .image-context');
 
     // send the user answer to the backend
     fetch('http://localhost:5000/api/answer', {
@@ -79,14 +142,33 @@ function answer() {
             // Flip the card after submitting the answer
             card.classList.toggle('is-flipped');
 
-            if (userAnswer === currentFact.answer) {
-                backFeedbackDiv.textContent = 'Correct!';
-                backFeedbackDiv.style.color = 'green';
-                correctCount++;
+            if (userAnswer.toLowerCase() === currentFact.answer.toLowerCase()) {
+                feedbackStatusDiv.textContent = 'Correct!';
+                feedbackStatusDiv.style.color = 'green';
+                feedbackDetailDiv.textContent = `The capital of ${capitalizedQuestion} is ${capitalizedAnswer}.`;
+                correctTickElement.style.display = "block";
+
+                textContextDiv.innerHTML = ''; // Clear text context
+                imageContextDiv.innerHTML = ''; // Clear image context
+                document.getElementById('correctTick').style.display = 'flex';
             } else {
-                backFeedbackDiv.textContent = `Wrong! The correct answer is ${currentFact.answer}.`;
-                backFeedbackDiv.style.color = 'red';
-                incorrectCount++;
+                feedbackStatusDiv.textContent = 'Wrong!';
+                feedbackStatusDiv.style.color = 'red';
+                feedbackDetailDiv.textContent = `The capital of ${capitalizedQuestion} is ${capitalizedAnswer}.`;
+                correctTickElement.style.display = "none";
+
+                // Display context based on rof
+                if (currentFact.rof > 0.6) {
+                    textContextDiv.textContent = currentFact.text_context;
+                    imageContextDiv.innerHTML = `<img src="../capital_images/${currentFact.image_context}.jpg" alt="Context Image">`;
+                } else if (currentFact.rof > 0.5) {
+                    textContextDiv.innerHTML = ''; // Clear text context
+                    imageContextDiv.innerHTML = `<img src="../capital_images/${currentFact.image_context}.jpg" alt="Context Image">`;
+                } else if (currentFact.rof > 0.4) {
+                    imageContextDiv.innerHTML = ''; // Clear image context
+                    textContextDiv.classList.add('text-context-padding');
+                    textContextDiv.textContent = currentFact.text_context;
+                }
             }
             errorMessageElement.textContent = '';  // Clear the error message after processing the answer
         })
@@ -94,7 +176,6 @@ function answer() {
             console.error('Error submitting answer:', error);
         });
 }
-
 
 function nextQuestion() {
     // Fetch the next question
@@ -153,11 +234,16 @@ document.getElementById('answer').addEventListener('keyup', function (event) {
 
     // Check if the pressed key is "Enter"
     if (event.key === 'Enter') {
-        if (this.value.trim() !== '') {
-            answer();  // Call the answer function
-            errorMessageElement.textContent = '';  // Clear the error message
+        // Check if the card is flipped (showing the back side)
+        if (card.classList.contains('is-flipped')) {
+            nextQuestion();  // Fetch the next question
         } else {
-            errorMessageElement.textContent = 'You need to type in some answer!';  // Display the error message
+            if (this.value.trim() !== '') {
+                answer();  // Call the answer function
+                errorMessageElement.textContent = '';  // Clear the error message
+            } else {
+                errorMessageElement.textContent = 'You need to type in some answer!';  // Display the error message
+            }
         }
     }
 });
@@ -212,4 +298,16 @@ function startSession() {
     // Load the first question or start the session as needed
     sessionStart = false
     question()
+}
+
+function capitalizeFirstLetter(str) {
+    const wordsToIgnore = ["and", "of", "in", "the", "to", "with", "on", "at", "by", "for"]; // Add more words as needed
+    return str.split(' ').map((word, index) => {
+        // Always capitalize the first word or if the word is not in the ignore list
+        if (index === 0 || !wordsToIgnore.includes(word.toLowerCase())) {
+            return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
+        } else {
+            return word.toLowerCase();
+        }
+    }).join(' ');
 }

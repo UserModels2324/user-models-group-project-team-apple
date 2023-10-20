@@ -31,6 +31,7 @@
             <div class="card__inner">
                 <div class="card__face card__face--front app">
                     <p id="question"></p>
+                    <p id="displayedAnswer" style="font-weight: bold;"></p>
                     <input type="text" id="answer" placeholder="Your answer">
                     <span id="error-message" style="color: red; font-size: 12px; margin-top: 10px"></span>
                     <button onclick="answer()">Submit</button>
@@ -38,14 +39,32 @@
                 </div>
                 <div class="card__face card__face--back">
                     <div class="card__content">
+                        <!-- Header for the back of the card, can be used for the image context -->
                         <div class="card__header" data-country=""></div>
-                        <div id="backFeedback"></div>
-                        <div class="card__body">
-                            <p id="country"></p>
-                            <p>Malta is an archipelago in the central Mediterranean...</p>
+
+                        <!-- Feedback status (Correct/Wrong) -->
+                        <div id="feedbackStatus" style="font-size: 24px; margin-top: 20px;"></div>
+
+                        <!-- Detailed feedback (The capital of...) -->
+                        <div id="feedbackDetail" style="margin-top: 10px;"></div>
+
+                        <!-- Context display based on rof -->
+                        <div id="contextDisplay" style="margin-top: 20px;">
+                            <div class="text-context">
+                                <!-- Text will be inserted here by JavaScript -->
+                            </div>
+                            <div class="image-context">
+                                <!-- Image will be inserted here by JavaScript -->
+                            </div>
+                            <!-- Green tick for correct answers -->
+                            <div id="correctTick" style="display: none; margin-top: 20px;">
+                                <span class="material-icons" style="font-size: 48px; color: green;">check_circle</span>
+                            </div>
                         </div>
+
+                        <!-- Next button -->
+                        <button id="nextButton" onclick="nextQuestion()" style="margin-top: 20px;">Next</button>
                     </div>
-                    <button id="nextButton" onclick="nextQuestion()">Next</button>
                 </div>
             </div>
         </div>

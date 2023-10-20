@@ -52,11 +52,11 @@ def question():
         "question": fact.question,
         "new": new,
         "rof": rof,
-        "text_context": "fact.text_context",
-        "image_context": "fact.image_context",
+        "text_context": fact.text_context,
+        "image_context": fact.image_context,
         "answer": fact.answer,
     }
-
+    print(data)
     timer.start_tracking_rt()
     
     return jsonify(data)
