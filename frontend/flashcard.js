@@ -69,46 +69,6 @@ function question() {
         });
 }
 
-// function answer() {
-//     const userAnswer = document.getElementById('answer').value.trim();
-//     const errorMessageElement = document.getElementById('error-message');
-//
-//     // Check if the input is empty
-//     if (userAnswer === '') {
-//         errorMessageElement.textContent = 'You need to type in some answer!';
-//         return;  // Exit the function early
-//     }
-//
-//     const capitalizedUserAnswer = userAnswer.charAt(0).toUpperCase() + userAnswer.slice(1);
-//     const backFeedbackDiv = document.getElementById('backFeedback');
-//
-//     // send the user answer to the backend
-//     fetch('http://localhost:5000/api/answer', {
-//         method: 'POST',
-//         headers: {
-//             'Content-Type': 'application/json',
-//         },
-//         body: JSON.stringify({ userAnswer: capitalizedUserAnswer }),
-//     })
-//         .then(() => {
-//             // Flip the card after submitting the answer
-//             card.classList.toggle('is-flipped');
-//
-//             if (userAnswer === currentFact.answer) {
-//                 backFeedbackDiv.textContent = 'Correct!';
-//                 backFeedbackDiv.style.color = 'green';
-//                 correctCount++;
-//             } else {
-//                 backFeedbackDiv.textContent = `Wrong! The correct answer is ${currentFact.answer}.`;
-//                 backFeedbackDiv.style.color = 'red';
-//                 incorrectCount++;
-//             }
-//             errorMessageElement.textContent = '';  // Clear the error message after processing the answer
-//         })
-//         .catch(error => {
-//             console.error('Error submitting answer:', error);
-//         });
-// }
 function answer() {
     const userAnswer = document.getElementById('answer').value.trim();
     const errorMessageElement = document.getElementById('error-message');
@@ -122,7 +82,6 @@ function answer() {
         return;  // Exit the function early
     }
 
-    const capitalizedUserAnswer = userAnswer.charAt(0).toUpperCase() + userAnswer.slice(1);
     const feedbackStatusDiv = document.getElementById('feedbackStatus');
     const feedbackDetailDiv = document.getElementById('feedbackDetail');
     const correctTickElement = document.getElementById('correctTick');
@@ -136,7 +95,7 @@ function answer() {
         headers: {
             'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ userAnswer: capitalizedUserAnswer }),
+        body: JSON.stringify({ userAnswer: userAnswer }),
     })
         .then(() => {
             // Flip the card after submitting the answer
@@ -147,6 +106,7 @@ function answer() {
                 feedbackStatusDiv.style.color = 'green';
                 feedbackDetailDiv.textContent = `The capital of ${capitalizedQuestion} is ${capitalizedAnswer}.`;
                 correctTickElement.style.display = "block";
+                correctCount += 1;
 
                 textContextDiv.innerHTML = ''; // Clear text context
                 imageContextDiv.innerHTML = ''; // Clear image context
@@ -156,6 +116,7 @@ function answer() {
                 feedbackStatusDiv.style.color = 'red';
                 feedbackDetailDiv.textContent = `The capital of ${capitalizedQuestion} is ${capitalizedAnswer}.`;
                 correctTickElement.style.display = "none";
+                incorrectCount += 1;
 
                 // Display context based on rof
                 if (currentFact.rof > 0.6) {
@@ -206,8 +167,7 @@ function updateRemainingTime() {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({ dump: true }),
+                    }
                 })
                     .then(response => response.json())
                     .then(data => {
@@ -256,32 +216,6 @@ function startSession() {
     sessionStart = true
     // Get the selected session length
     const sessionLength = document.getElementById("sessionLength").value;
-
-    // Send the session length to the backend to start the timer
-    fetch('http://localhost:5000/api/start_timer', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-            sessionLength: sessionLength
-        }),
-    })
-        .then(response => response.json())
-        .then(data => {
-            if (data.message === 'Timer started successfully') {
-                // Hide the session selection div
-                document.querySelector(".session-selection").style.display = "none";
-
-                // Load the first question or start the session as needed
-                // Here, you can integrate your existing code that starts the session, loads the first question, etc.
-            } else {
-                console.error("Failed to start the timer on the backend.");
-            }
-        })
-        .catch((error) => {
-            console.error('Error:', error);
-        });
 
     // Initialize and start the timer display
     document.getElementById('timer').textContent = `${document.getElementById('sessionLength').value}m 0s left`;

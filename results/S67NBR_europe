@@ -1,2 +1,0 @@
-trial,start_time,rt,correct,fact_id,condition,question,text_context,image_context,answer,alpha
-1,1938.127685546875,1937.449951171875,False,59,0,Czech Republic,"Prague is home to the famous Astronomical Clock, which has been operating continuously since its installation in 1410.",prague,Prague,0.3
