@@ -119,6 +119,9 @@ function answer() {
                 correctTickElement.style.display = "none";
                 incorrectCount += 1;
 
+                imageContextDiv.innerHTML = ''; // Clear image context
+                textContextDiv.innerHTML = ''; // Clear text context
+
                 // Display context based on condition
                 // Condition 1 - only text context shown
                 if (currentFact.condition == 1 && currentFact.rof > 0) {
@@ -132,23 +135,7 @@ function answer() {
                 } else if (currentFact.condition == 3 && currentFact.rof > 0) {
                         textContextDiv.textContent = currentFact.text_context;
                         imageContextDiv.innerHTML = `<img src="../capital_images/${removeSpaces(currentFact.image_context)}.jpg" alt="Context Image">`;
-                } else {
-                    imageContextDiv.innerHTML = ''; // Clear image context
-                    textContextDiv.innerHTML = ''; // Clear text context
-                }
-
-                // Display context based on rof
-                // if (currentFact.rof > 0.6) {
-                //     textContextDiv.textContent = currentFact.text_context;
-                //     imageContextDiv.innerHTML = `<img src="../capital_images/${currentFact.image_context}.jpg" alt="Context Image">`;
-                // } else if (currentFact.rof > 0.5) {
-                //     textContextDiv.innerHTML = ''; // Clear text context
-                //     imageContextDiv.innerHTML = `<img src="../capital_images/${currentFact.image_context}.jpg" alt="Context Image">`;
-                // } else if (currentFact.rof > 0.4) {
-                //     imageContextDiv.innerHTML = ''; // Clear image context
-                //     textContextDiv.classList.add('text-context-padding');
-                //     textContextDiv.textContent = currentFact.text_context;
-                // }
+                } 
             }
             errorMessageElement.textContent = '';  // Clear the error message after processing the answer
         })
