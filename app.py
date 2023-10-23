@@ -10,7 +10,7 @@ app = Flask(__name__)
 CORS(app)
 
 # start the timer for 8 minutes
-timer = None
+timer = Time(session_time=60)
 participant = None
 model = None
 
@@ -20,7 +20,7 @@ def start():
     global participant
     global model
 
-    timer = Time(session_time=1)
+    timer = Time(session_time=60)
     participant = datetime.now().strftime("%Y%m%d%H%M%S")
     model = Facts(participant)
 
@@ -45,6 +45,7 @@ def question():
     # Create a dictionary from the Fact object's attributes
     data = {
         "fact_id": fact.fact_id,
+        # "condition": 3,
         "condition": fact.condition,
         "question": fact.question,
         "new": new,

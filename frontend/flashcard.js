@@ -38,15 +38,16 @@ function question() {
 
             document.getElementById('question').textContent = `What is the capital of ${capitalizedQuestion}?`;
 
-            // Set the country name
-            const countryElement = document.getElementById('country');
-            countryElement.textContent = currentFact.question;
-
             // If the fact is new, display the answer above the input field
             const displayedAnswerElement = document.getElementById('displayedAnswer');
             const answerInput = document.getElementById('answer');
+
+            // console.log(currentFact.new, typeof currentFact.new);
+
             if (currentFact.new) {
                 displayedAnswerElement.textContent = capitalizedAnswer;
+            } else if (currentFact.condition == 3 && currentFact.rof > 0) {
+                displayedAnswerElement.textContent = currentFact.question_context;
             } else {
                 displayedAnswerElement.textContent = ''; // Clear the displayed answer
                 answerInput.value = ''; // Clear the input field
@@ -118,18 +119,33 @@ function answer() {
                 correctTickElement.style.display = "none";
                 incorrectCount += 1;
 
-                // Display context based on rof
-                if (currentFact.rof > 0.6) {
-                    textContextDiv.textContent = currentFact.text_context;
-                    imageContextDiv.innerHTML = `<img src="../capital_images/${currentFact.image_context}.jpg" alt="Context Image">`;
-                } else if (currentFact.rof > 0.5) {
-                    textContextDiv.innerHTML = ''; // Clear text context
-                    imageContextDiv.innerHTML = `<img src="../capital_images/${currentFact.image_context}.jpg" alt="Context Image">`;
-                } else if (currentFact.rof > 0.4) {
-                    imageContextDiv.innerHTML = ''; // Clear image context
-                    textContextDiv.classList.add('text-context-padding');
-                    textContextDiv.textContent = currentFact.text_context;
+                // Display context based on condition
+                // Condition 1 - only text context shown
+                if (currentFact.condition == 1 && currentFact.rof > 0) {
+                        imageContextDiv.innerHTML = ''; // Clear image context
+                        textContextDiv.classList.add('text-context-padding');
+                        textContextDiv.textContent = currentFact.text_context;
+                    // Condition 2 - both text and images
+                } else if (currentFact.condition == 2 && currentFact.rof > 0) {
+                        textContextDiv.textContent = currentFact.text_context;
+                        imageContextDiv.innerHTML = `<img src="../capital_images/${removeSpaces(currentFact.image_context)}.jpg" alt="Context Image">`;
+                } else if (currentFact.condition == 3 && currentFact.rof > 0) {
+                        textContextDiv.textContent = currentFact.text_context;
+                        imageContextDiv.innerHTML = `<img src="../capital_images/${removeSpaces(currentFact.image_context)}.jpg" alt="Context Image">`;
                 }
+
+                // Display context based on rof
+                // if (currentFact.rof > 0.6) {
+                //     textContextDiv.textContent = currentFact.text_context;
+                //     imageContextDiv.innerHTML = `<img src="../capital_images/${currentFact.image_context}.jpg" alt="Context Image">`;
+                // } else if (currentFact.rof > 0.5) {
+                //     textContextDiv.innerHTML = ''; // Clear text context
+                //     imageContextDiv.innerHTML = `<img src="../capital_images/${currentFact.image_context}.jpg" alt="Context Image">`;
+                // } else if (currentFact.rof > 0.4) {
+                //     imageContextDiv.innerHTML = ''; // Clear image context
+                //     textContextDiv.classList.add('text-context-padding');
+                //     textContextDiv.textContent = currentFact.text_context;
+                // }
             }
             errorMessageElement.textContent = '';  // Clear the error message after processing the answer
         })
@@ -185,6 +201,10 @@ function goBack() {
     window.location.href = 'index.html'; // Assuming your main menu page is named 'index.html'
 }
 
+function removeSpaces(str) {
+    return str.replace(/\s+/g, '');
+}
+
 // Call the function every 10 seconds to update the timer
 setInterval(updateRemainingTime, 1000);
 
@@ -208,17 +228,14 @@ document.getElementById('answer').addEventListener('keyup', function (event) {
     }
 });
 
-document.getElementById("sessionLength").addEventListener("input", function () {
-    document.getElementById("sessionValue").textContent = this.value + " minutes";
-});
-
 function startSession() {
     sessionStart = true
-    // Get the selected session length
-    const sessionLength = document.getElementById("sessionLength").value;
+
+    // Set the session length to 60 minutes
+    const sessionLength = "60";
 
     // Initialize and start the timer display
-    document.getElementById('timer').textContent = `${document.getElementById('sessionLength').value}m 0s left`;
+    document.getElementById('timer').textContent = `${sessionLength}m 0s left`;
 
     // Hide the session selection div
     document.querySelector('.session-selection').style.display = 'none';
@@ -231,7 +248,29 @@ function startSession() {
 
     // Load the first question or start the session as needed
     sessionStart = false
-    question()
+    // question()
+
+    // Make the API call
+    fetch('http://localhost:5000/api/start', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        }
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return response.json();
+    })
+    .then(data => {
+        console.log(data);
+        // Load the first question or start the session as needed
+        question();
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
 }
 
 function capitalizeFirstLetter(str) {
