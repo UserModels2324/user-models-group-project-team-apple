@@ -132,6 +132,9 @@ function answer() {
                 } else if (currentFact.condition == 3 && currentFact.rof > 0) {
                         textContextDiv.textContent = currentFact.text_context;
                         imageContextDiv.innerHTML = `<img src="../capital_images/${removeSpaces(currentFact.image_context)}.jpg" alt="Context Image">`;
+                } else {
+                    imageContextDiv.innerHTML = ''; // Clear image context
+                    textContextDiv.innerHTML = ''; // Clear text context
                 }
 
                 // Display context based on rof
