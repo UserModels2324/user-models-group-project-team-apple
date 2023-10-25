@@ -131,17 +131,37 @@ function answer() {
                     // Condition 2 - both text and images
                 } else if (currentFact.condition == 2 && currentFact.rof > 0) {
                         textContextDiv.textContent = currentFact.text_context;
-                        imageContextDiv.innerHTML = `<img src="../capital_images/${removeSpaces(currentFact.image_context)}.jpg" alt="Context Image">`;
+                        setImageSource(imageContextDiv, '../capital_images/', currentFact.image_context);
+                        // imageContextDiv.innerHTML = `<img src="../capital_images/${removeSpaces(currentFact.image_context)}.jpg" alt="Context Image">`;
                 } else if (currentFact.condition == 3 && currentFact.rof > 0) {
                         textContextDiv.textContent = currentFact.text_context;
-                        imageContextDiv.innerHTML = `<img src="../capital_images/${removeSpaces(currentFact.image_context)}.jpg" alt="Context Image">`;
-                } 
+                        setImageSource(imageContextDiv, '../capital_images/', currentFact.image_context);
+                        // imageContextDiv.innerHTML = `<img src="../capital_images/${removeSpaces(currentFact.image_context)}.jpg" alt="Context Image">`;
+                } else {
+                    imageContextDiv.innerHTML = ''; // Clear image context
+                    textContextDiv.innerHTML = ''; // Clear text context
+                }
             }
             errorMessageElement.textContent = '';  // Clear the error message after processing the answer
         })
         .catch(error => {
             console.error('Error submitting answer:', error);
         });
+}
+
+function setImageSource(element, basePath, imageName) {
+    // Try to load the .jpg version first
+    const jpgSrc = `${basePath}${removeSpaces(imageName)}.jpg`;
+    const jpegSrc = `${basePath}${removeSpaces(imageName)}.jpeg`;
+
+    const img = new Image();
+    img.onload = function() {
+        element.innerHTML = `<img src="${jpgSrc}" alt="Context Image">`;
+    };
+    img.onerror = function() {
+        element.innerHTML = `<img src="${jpegSrc}" alt="Context Image">`;
+    };
+    img.src = jpgSrc;
 }
 
 function nextQuestion() {
