@@ -73,6 +73,8 @@ class Facts: # slimstampen model put into a class
         self.current_fact, new = self.model.get_next_fact(current_time)
         rof = self.model.get_rate_of_forgetting(current_time, self.current_fact)
 
+        print("ROF: {}".format(rof))
+
         return self.current_fact, new, rof
 
     # post the user response back to the model

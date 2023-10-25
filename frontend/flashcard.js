@@ -46,7 +46,7 @@ function question() {
 
             if (currentFact.new) {
                 displayedAnswerElement.textContent = capitalizedAnswer;
-            } else if (currentFact.condition == 3 && currentFact.rof > 0) {
+            } else if (currentFact.condition == 3 && currentFact.rof > 0.5) {
                 displayedAnswerElement.textContent = currentFact.question_context;
             } else {
                 displayedAnswerElement.textContent = ''; // Clear the displayed answer
@@ -123,20 +123,21 @@ function answer() {
                 textContextDiv.innerHTML = ''; // Clear text context
 
                 // Display context based on condition
-                // Condition 1 - only text context shown
-                if (currentFact.condition == 1 && currentFact.rof > 0) {
-                        imageContextDiv.innerHTML = ''; // Clear image context
-                        textContextDiv.classList.add('text-context-padding');
-                        textContextDiv.textContent = currentFact.text_context;
-                    // Condition 2 - both text and images
-                } else if (currentFact.condition == 2 && currentFact.rof > 0) {
-                        textContextDiv.textContent = currentFact.text_context;
-                        setImageSource(imageContextDiv, '../capital_images/', currentFact.image_context);
-                        // imageContextDiv.innerHTML = `<img src="../capital_images/${removeSpaces(currentFact.image_context)}.jpg" alt="Context Image">`;
-                } else if (currentFact.condition == 3 && currentFact.rof > 0) {
-                        textContextDiv.textContent = currentFact.text_context;
-                        setImageSource(imageContextDiv, '../capital_images/', currentFact.image_context);
-                        // imageContextDiv.innerHTML = `<img src="../capital_images/${removeSpaces(currentFact.image_context)}.jpg" alt="Context Image">`;
+                // condition 1 - only text context shown
+                if (currentFact.condition == 1 && currentFact.rof > 0.5) {
+                    imageContextDiv.innerHTML = ''; // Clear image context
+                    textContextDiv.classList.add('text-context-padding');
+                    textContextDiv.textContent = currentFact.text_context;
+
+                    // condition 2 - both text and images
+                } else if (currentFact.condition == 2 && currentFact.rof > 0.5) {
+                    textContextDiv.textContent = currentFact.text_context;
+                    setImageSource(imageContextDiv, '../capital_images/', currentFact.image_context);
+
+                    // condition 3 - text, image and hint
+                } else if (currentFact.condition == 3 && currentFact.rof > 0.5) {
+                    textContextDiv.textContent = currentFact.text_context;
+                    setImageSource(imageContextDiv, '../capital_images/', currentFact.image_context);
                 } else {
                     imageContextDiv.innerHTML = ''; // Clear image context
                     textContextDiv.innerHTML = ''; // Clear text context
@@ -155,10 +156,10 @@ function setImageSource(element, basePath, imageName) {
     const jpegSrc = `${basePath}${removeSpaces(imageName)}.jpeg`;
 
     const img = new Image();
-    img.onload = function() {
+    img.onload = function () {
         element.innerHTML = `<img src="${jpgSrc}" alt="Context Image">`;
     };
-    img.onerror = function() {
+    img.onerror = function () {
         element.innerHTML = `<img src="${jpegSrc}" alt="Context Image">`;
     };
     img.src = jpgSrc;
@@ -267,20 +268,20 @@ function startSession() {
             'Content-Type': 'application/json',
         }
     })
-    .then(response => {
-        if (!response.ok) {
-            throw new Error('Network response was not ok');
-        }
-        return response.json();
-    })
-    .then(data => {
-        console.log(data);
-        // Load the first question or start the session as needed
-        question();
-    })
-    .catch(error => {
-        console.error('Error:', error);
-    });
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => {
+            console.log(data);
+            // Load the first question or start the session as needed
+            question();
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
 }
 
 function capitalizeFirstLetter(str) {
