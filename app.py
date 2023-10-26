@@ -10,7 +10,7 @@ app = Flask(__name__)
 CORS(app)
 
 # start the timer for 8 minutes
-timer = Time(session_time=45)
+timer = Time(session_time=30)
 participant = None
 model = None
 
@@ -20,7 +20,7 @@ def start():
     global participant
     global model
 
-    timer = Time(session_time=45)
+    timer = Time(session_time=30)
     participant = datetime.now().strftime("%Y%m%d%H%M%S")
     model = Facts(participant)
 
