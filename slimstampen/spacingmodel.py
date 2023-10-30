@@ -137,7 +137,8 @@ class SpacingModel(object):
 
         a_fit = previous_alpha
         reading_time = self.get_reading_time(response.fact.question)
-        estimated_rt = self.estimate_reaction_time_from_activation(activation, reading_time)
+        typing_time = self.get_typing_time(response.fact.answer)
+        estimated_rt = self.estimate_reaction_time_from_activation(activation, reading_time, typing_time)
         est_diff = estimated_rt - self.normalise_reaction_time(response)
 
         if est_diff < 0:
@@ -160,8 +161,8 @@ class SpacingModel(object):
 
             # Calculate the reaction times from activation and compare against observed RTs
             encounter_window = encounters[max(1, len(encounters) - 5):]
-            total_a0_error = self.calculate_predicted_reaction_time_error(encounter_window, d_a0, reading_time)
-            total_a1_error = self.calculate_predicted_reaction_time_error(encounter_window, d_a1, reading_time)
+            total_a0_error = self.calculate_predicted_reaction_time_error(encounter_window, d_a0, reading_time, typing_time)
+            total_a1_error = self.calculate_predicted_reaction_time_error(encounter_window, d_a1, reading_time, typing_time)
 
             # Adjust the search area based on the lowest total error
             ac = (a0 + a1) / 2
@@ -184,13 +185,13 @@ class SpacingModel(object):
         return(math.log(sum([math.pow((current_time - e.time) / 1000, -e.decay) for e in included_encounters])))
 
 
-    def calculate_predicted_reaction_time_error(self, test_set, decay_adjusted_encounters, reading_time):
+    def calculate_predicted_reaction_time_error(self, test_set, decay_adjusted_encounters, reading_time, typing_time):
         # type: ([Encounter], [Encounter], Fact) -> float
         """
         Calculate the summed absolute difference between observed response times and those predicted based on a decay adjustment.
         """
         activations = [self.calculate_activation_from_encounters(decay_adjusted_encounters, e.time - 100) for e in test_set]
-        rt = [self.estimate_reaction_time_from_activation(a, reading_time) for a in activations]
+        rt = [self.estimate_reaction_time_from_activation(a, reading_time, typing_time) for a in activations]
         rt_errors = [abs(e.reaction_time - rt) for (e, rt) in zip(test_set, rt)]
         return(sum(rt_errors))
 
