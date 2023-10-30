@@ -195,12 +195,12 @@ class SpacingModel(object):
         return(sum(rt_errors))
 
 
-    def estimate_reaction_time_from_activation(self, activation, reading_time):
-        # type: (float, int) -> float
+    def estimate_reaction_time_from_activation(self, activation, reading_time, typing_time):
+        # type: (float, int, int) -> float
         """
         Calculate an estimated reaction time given a fact's activation and the expected reading time 
         """
-        return((self.F * math.exp(-activation) + (reading_time / 1000)) * 1000)
+        return((self.F * math.exp(-activation) + (reading_time / 1000) + (typing_time / 1000)) * 1000 )
 
 
     def get_max_reaction_time_for_fact(self, fact):
@@ -209,7 +209,8 @@ class SpacingModel(object):
         Return the highest response time we can reasonably expect for a given fact
         """
         reading_time = self.get_reading_time(fact.question)
-        max_rt = 1.5 * self.estimate_reaction_time_from_activation(self.FORGET_THRESHOLD, reading_time)
+        typing_time = self.get_typing_time(fact.answer)
+        max_rt = 1.5 * self.estimate_reaction_time_from_activation(self.FORGET_THRESHOLD, reading_time, typing_time)
         return(max_rt)
 
 
@@ -226,7 +227,19 @@ class SpacingModel(object):
         
         return(300)
 
-    
+    def get_typing_time(self, text):
+        # type: (str) -> float
+        """
+        Return expected typing time in milliseconds for a given string
+        """
+        word_count = len(text.split())
+
+        if word_count > 1:
+            character_count = len(text)
+            return(max((-157.9 + character_count * 19.5 * 5), 1500))
+        
+        return(1500)
+
     def normalise_reaction_time(self, response):
         # type: (Response) -> float
         """
