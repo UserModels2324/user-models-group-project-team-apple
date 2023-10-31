@@ -1,5 +1,5 @@
 # This is the backend; everything that requires a timer
-import time
+import time, os
 from slimstampen.spacingmodel import SpacingModel, Fact, Response
 import pandas as pd
 
@@ -104,5 +104,9 @@ class Facts: # slimstampen model put into a class
         exports all the slimstamppen model data, and saves the file as csv to the results folder, replacing the old file.
         uses date time string as file name.
         """
+
+        if not os.path.exists('results'):
+            os.makedirs('results')
+
         file_name = f"results/{self.participant}"
         self.model.export_data(file_name)
