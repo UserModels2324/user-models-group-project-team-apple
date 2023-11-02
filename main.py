@@ -6,7 +6,7 @@ import pandas as pd
 # keep track of time in ms
 class Time:
     def __init__(self, session_time):
-        self.start_time = time.time() * 1000
+        self.start_time = self.get_time()
         self.session_time = session_time * 60 * 1000
         self.start_rt = 0.0
         self.end_rt = 0.0
@@ -16,7 +16,7 @@ class Time:
     
     def get_elapsed_time(self):
         if self.start_time is not None:
-            return self.get_time() - self.start_time
+            return int(self.get_time() - self.start_time)
 
     def start_tracking_rt(self):
         self.start_rt = self.get_time()
@@ -25,15 +25,12 @@ class Time:
         self.end_rt = self.get_time()
 
     def get_rt(self):
-        return self.end_rt - self.start_rt
+        return int(self.end_rt - self.start_rt)
 
     def get_remaining_time(self):
         elapsed_time = self.get_elapsed_time()
         remaining_time = self.session_time - elapsed_time
         return max(0, remaining_time)
-
-    def start_timer(self):
-        self.start_time = time.time() * 1000
 
 # keeps track of the slimstampen model
 class Facts: # slimstampen model put into a class
@@ -41,8 +38,6 @@ class Facts: # slimstampen model put into a class
         self.participant = participant
         self.model = SpacingModel()
         self.current_fact = None # fact currently seen by user
-        self.rof_dict = {}
-
         self.generate()
 
     # generate the facts and populate the model
@@ -65,7 +60,7 @@ class Facts: # slimstampen model put into a class
                         image_context=row['image_context'],
                         question_context=row['question_context'],
                         answer=row['answer'])
-
+            
             self.model.add_fact(fact)
             
     # pulls the infomation to display from the model
@@ -73,31 +68,16 @@ class Facts: # slimstampen model put into a class
         self.current_fact, new = self.model.get_next_fact(current_time)
         rof = self.model.get_rate_of_forgetting(current_time, self.current_fact)
 
+        print("SESSION TIME: {}".format(current_time))
         print("ROF: {}".format(rof))
 
         return self.current_fact, new, rof
 
     # post the user response back to the model
     def answer(self, start_time, rt, user_answer):
-
         # send answer to the model
-        resp = Response(fact = self.current_fact, start_time = start_time, rt = rt, correct = user_answer == self.current_fact.answer)
+        resp = Response(fact = self.current_fact, start_time = start_time, rt = rt, correct = (user_answer == self.current_fact.answer))
         self.model.register_response(resp)
-
-        # add rof
-        rof = self.model.get_rate_of_forgetting(time=start_time, fact=self.current_fact)
-        fact_id = self.current_fact.fact_id
-        self.rof_dict[fact_id] = rof
-
-    def calculate_average_rof(self):
-
-        if len(self.rof_dict) != 0:
-            total_rof = sum(rof for rof in self.rof_dict.values())
-            average_rof = total_rof / len(self.rof_dict)
-            return average_rof
-        else:
-            return 0
-
 
     def export(self):
         """

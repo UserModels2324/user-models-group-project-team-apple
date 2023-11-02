@@ -63,7 +63,7 @@ def question():
 def submit_answer():
     timer.end_tracking_rt()
 
-    print(timer.get_rt())
+    print("RT: {}".format(timer.get_rt()))
 
     data = request.get_json()
     user_answer = data.get('userAnswer').lower()
