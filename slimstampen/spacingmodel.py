@@ -232,10 +232,10 @@ class SpacingModel(object):
     def get_typing_time(self, text):
         # type: (str) -> float
         """
-        Return expected reading time in milliseconds for a given string
+        Return expected typing time in milliseconds for a given string
         """
         word_count = len(text.split())
-        characters_per_minute = 200
+        characters_per_minute = 160
 
         if word_count > 1:
             character_count = len(text)
