@@ -46,7 +46,7 @@ function question() {
 
             if (currentFact.new) {
                 displayedAnswerElement.textContent = capitalizedAnswer;
-            } else if (currentFact.condition == 3 && currentFact.rof > 0.5) {
+            } else if (currentFact.condition == 3 && currentFact.rof > 0.4) {
                 displayedAnswerElement.textContent = currentFact.question_context;
             } else {
                 displayedAnswerElement.textContent = ''; // Clear the displayed answer
@@ -124,18 +124,18 @@ function answer() {
 
                 // Display context based on condition
                 // condition 1 - only text context shown
-                if (currentFact.condition == 1 && currentFact.rof > 0.5) {
+                if (currentFact.condition == 1 && currentFact.rof > 0.4) {
                     imageContextDiv.innerHTML = ''; // Clear image context
                     textContextDiv.classList.add('text-context-padding');
                     textContextDiv.textContent = currentFact.text_context;
 
                     // condition 2 - both text and images
-                } else if (currentFact.condition == 2 && currentFact.rof > 0.5) {
+                } else if (currentFact.condition == 2 && currentFact.rof > 0.4) {
                     textContextDiv.textContent = currentFact.text_context;
                     setImageSource(imageContextDiv, '../capital_images/', currentFact.image_context);
 
                     // condition 3 - text, image and hint
-                } else if (currentFact.condition == 3 && currentFact.rof > 0.5) {
+                } else if (currentFact.condition == 3 && currentFact.rof > 0.4) {
                     textContextDiv.textContent = currentFact.text_context;
                     setImageSource(imageContextDiv, '../capital_images/', currentFact.image_context);
                 } else {
