@@ -211,6 +211,10 @@ class SpacingModel(object):
         Return the highest response time we can reasonably expect for a given fact
         """
         reading_time = self.get_reading_time(fact.question)
+
+        if fact.condition == 3:
+            reading_time += self.get_reading_time(fact.question_context)
+
         typing_time = self.get_typing_time(fact.answer)
         max_rt = 1.5 * self.estimate_reaction_time_from_activation(self.FORGET_THRESHOLD, reading_time, typing_time)
         return(max_rt)
